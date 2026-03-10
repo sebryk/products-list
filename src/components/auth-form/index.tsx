@@ -2,7 +2,6 @@ import { cn } from '@/lib/utils'
 import { authPageData } from '@/data/auth-page'
 import { useForm } from '@/hooks/use-form'
 import { Divider } from '@/components/auth-form/components/divider'
-import { FooterLink } from '@/components/auth-form/components/footer-link'
 import { Field } from '@/components/auth-form/components/field'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -101,11 +100,12 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                         <Divider text={divider} />
                      </div>
                   </form>
-                  <FooterLink
-                     prefix={link.prefix}
-                     text={link.text}
-                     to={link.to}
-                  />
+                  <p className="z-10 text-center text-base leading-6 text-neutral-600 sm:text-lg">
+                     {`${link.prefix} `}
+                     <Button href={link.to} variant="link">
+                        {link.text}
+                     </Button>
+                  </p>
                </div>
             </div>
          </section>
