@@ -1,4 +1,5 @@
 import clearIcon from '@/assets/auth-page/icons/clear-icon.svg?react'
+import eyeIcon from '@/assets/auth-page/icons/eye-icon.svg?react'
 import eyeOffIcon from '@/assets/auth-page/icons/eye-off-icon.svg?react'
 import lockIcon from '@/assets/auth-page/icons/lock-icon.svg?react'
 import logo from '@/assets/auth-page/icons/logo.svg?react'
@@ -9,10 +10,23 @@ const authAssets = {
    userIcon,
    clearIcon,
    lockIcon,
+   eyeIcon,
    eyeOffIcon,
 }
 
-const inputs = [
+type AuthFieldName = 'login' | 'password'
+
+type AuthInput = {
+   type: 'text' | 'password'
+   name: AuthFieldName
+   label: string
+   placeholder: string
+   leftIcon: (typeof authAssets)[keyof typeof authAssets]
+   rightIcon?: (typeof authAssets)[keyof typeof authAssets]
+   activeRightIcon?: (typeof authAssets)[keyof typeof authAssets]
+}
+
+const inputs: AuthInput[] = [
    {
       type: 'text',
       name: 'login',
@@ -28,6 +42,7 @@ const inputs = [
       placeholder: 'Введите пароль',
       leftIcon: authAssets.lockIcon,
       rightIcon: authAssets.eyeOffIcon,
+      activeRightIcon: authAssets.eyeIcon,
    },
 ]
 
@@ -37,6 +52,20 @@ export const authPageData = {
       subtitle: 'Пожалуйста, авторизируйтесь',
       logo: authAssets.logo,
       inputs,
+      errors: {
+         login: {
+            required: 'Введите логин.',
+            min: 'Логин должен содержать минимум 2 символа.',
+            pattern:
+               'Логин может содержать только латинские буквы и цифры.',
+         },
+         password: {
+            required: 'Введите пароль.',
+            min: 'Пароль должен содержать минимум 8 символов.',
+            pattern:
+               'Пароль должен содержать хотя бы одну букву и одну цифру.',
+         },
+      },
       checkbox: 'Запомнить данные',
       button: 'Войти',
       divider: 'или',
@@ -51,6 +80,20 @@ export const authPageData = {
       subtitle: 'Пожалуйста, заполните данные',
       logo: authAssets.logo,
       inputs,
+      errors: {
+         login: {
+            required: 'Введите логин.',
+            min: 'Логин должен содержать минимум 2 символа.',
+            pattern:
+               'Логин может содержать только латинские буквы и цифры.',
+         },
+         password: {
+            required: 'Введите пароль.',
+            min: 'Пароль должен содержать минимум 8 символов.',
+            pattern:
+               'Пароль должен содержать хотя бы одну букву и одну цифру.',
+         },
+      },
       checkbox: 'Я принимаю условия',
       button: 'Создать аккаунт',
       divider: 'или',

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { authPageData } from '@/data/auth-page'
+import { useForm } from '@/hooks/use-form'
 import { Divider } from '@/components/auth-form/components/divider'
 import { FooterLink } from '@/components/auth-form/components/footer-link'
 import { Field } from '@/components/auth-form/components/field'
@@ -11,9 +12,26 @@ type AuthFormProps = {
 }
 
 export const AuthForm = ({ variant }: AuthFormProps) => {
-   const { title, subtitle, logo, inputs, checkbox, divider, link, button } =
-      authPageData[variant]
+   const {
+      title,
+      subtitle,
+      logo,
+      inputs,
+      errors,
+      checkbox,
+      divider,
+      link,
+      button,
+   } = authPageData[variant]
    const Logo = logo
+   const { form, handleSubmit, watch, handleIconClick, clearErrors } =
+      useForm(errors)
+   const {
+      register,
+      formState: { errors: formErrors },
+   } = form
+
+   const onSubmit = handleSubmit(() => undefined)
 
    return (
       <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 text-neutral-900 sm:px-6">
@@ -35,24 +53,49 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                         {subtitle}
                      </p>
                   </div>
-                  <form className="flex w-full flex-col gap-5 px-2.5">
+                  <form
+                     className="flex w-full flex-col gap-5 px-2.5"
+                     noValidate={true}
+                     onSubmit={onSubmit}
+                  >
                      <div className="flex flex-col gap-4">
-                        {inputs.map((input) => (
-                           <Field
-                              key={input.name}
-                              id={input.name}
-                              label={input.label}
-                              placeholder={input.placeholder}
-                              type={input.type}
-                              name={input.name}
-                              leftIcon={input?.leftIcon}
-                              rightIcon={input?.rightIcon}
-                           />
-                        ))}
+                        {inputs.map((input) => {
+                           const field = register(input.name)
+                           const normalizedValue = watch(input.name) ?? ''
+                           const hasValue = normalizedValue.length > 0
+                           const rightIcon = hasValue
+                              ? input.rightIcon
+                              : undefined
+                           const activeRightIcon = hasValue
+                              ? input.activeRightIcon
+                              : undefined
+
+                           return (
+                              <Field
+                                 key={input.name}
+                                 ref={field.ref}
+                                 id={input.name}
+                                 label={input.label}
+                                 placeholder={input.placeholder}
+                                 type={input.type}
+                                 name={field.name}
+                                 value={normalizedValue}
+                                 error={formErrors[input.name]?.message}
+                                 leftIcon={input.leftIcon}
+                                 rightIcon={rightIcon}
+                                 activeRightIcon={activeRightIcon}
+                                 onChange={(event) => {
+                                    field.onChange(event)
+                                    clearErrors(input.name)
+                                 }}
+                                 onRightIconClick={handleIconClick}
+                              />
+                           )
+                        })}
                      </div>
                      <Checkbox id="remember" label={checkbox} />
                      <div className="flex w-full flex-col gap-4">
-                        <Button type="button" className="w-full">
+                        <Button type="submit" className="w-full">
                            {button}
                         </Button>
                         <Divider text={divider} />
