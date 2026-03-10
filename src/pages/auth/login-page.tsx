@@ -1,5 +1,5 @@
-import { AuthScreen } from '@/components/ui/auth-screen'
+import { AuthForm } from '@/components/auth-form'
 
 export function LoginPage() {
-   return <AuthScreen variant="login" />
+   return <AuthForm variant="login" />
 }

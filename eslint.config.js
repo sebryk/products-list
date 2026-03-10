@@ -6,6 +6,8 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss'
+
 export default defineConfig([
    globalIgnores(['dist', 'node_modules']),
    {
@@ -16,10 +18,17 @@ export default defineConfig([
          reactHooks.configs.flat.recommended,
          reactRefresh.configs.vite,
          eslintConfigPrettier,
+         // eslintPluginBetterTailwindcss.configs.recommended,
       ],
       languageOptions: {
          ecmaVersion: 2020,
          globals: globals.browser,
+      },
+
+      settings: {
+         'better-tailwindcss': {
+            entryPoint: 'src/index.css',
+         },
       },
    },
 ])

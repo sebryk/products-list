@@ -1,13 +1,11 @@
-import checkboxIcon from '@/assets/auth-page/icons/checkbox-icon.svg'
-import clearIcon from '@/assets/auth-page/icons/clear-icon.svg'
-import eyeOffIcon from '@/assets/auth-page/icons/eye-off-icon.svg'
-import lockIcon from '@/assets/auth-page/icons/lock-icon.svg'
-import logo from '@/assets/auth-page/icons/logo.svg'
-import userIcon from '@/assets/auth-page/icons/user-icon.svg'
+import clearIcon from '@/assets/auth-page/icons/clear-icon.svg?react'
+import eyeOffIcon from '@/assets/auth-page/icons/eye-off-icon.svg?react'
+import lockIcon from '@/assets/auth-page/icons/lock-icon.svg?react'
+import logo from '@/assets/auth-page/icons/logo.svg?react'
+import userIcon from '@/assets/auth-page/icons/user-icon.svg?react'
 
 const authAssets = {
    logo,
-   checkboxIcon,
    userIcon,
    clearIcon,
    lockIcon,
@@ -16,6 +14,7 @@ const authAssets = {
 
 const inputs = [
    {
+      type: 'text',
       name: 'login',
       label: 'Логин',
       placeholder: 'Введите логин',
@@ -23,6 +22,7 @@ const inputs = [
       rightIcon: authAssets.clearIcon,
    },
    {
+      type: 'password',
       name: 'password',
       label: 'Пароль',
       placeholder: 'Введите пароль',
@@ -38,7 +38,6 @@ export const authPageData = {
       logo: authAssets.logo,
       inputs,
       checkbox: 'Запомнить данные',
-      checkboxIcon: authAssets.checkboxIcon,
       button: 'Войти',
       divider: 'или',
       link: {
@@ -53,7 +52,6 @@ export const authPageData = {
       logo: authAssets.logo,
       inputs,
       checkbox: 'Я принимаю условия',
-      checkboxIcon: authAssets.checkboxIcon,
       button: 'Создать аккаунт',
       divider: 'или',
       link: {

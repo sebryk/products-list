@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @theme inline {
+   --font-sans: 'Inter', sans-serif;
+
    --color-neutral-0: #ffffff;
    --color-neutral-100: #f9f9f9;
    --color-neutral-200: #ededed;
@@ -10,6 +13,38 @@
 
    --color-primary-600: #242edb;
    --color-primary-500: #367aff;
+
+   --background-image-modal-overlay-fade: linear-gradient(
+      180deg,
+      rgba(35, 35, 35, 0.03) 0%,
+      rgba(35, 35, 35, 0) 50%
+   );
+}
+
+@layer components {
+   .border-gradient {
+      position: relative;
+      border-radius: 1.5rem;
+   }
+
+   .border-gradient::before {
+      z-index: 0;
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+         180deg,
+         #ededed 0%,
+         rgba(237, 237, 237, 0) 100%
+      );
+      -webkit-mask:
+         linear-gradient(white, white) content-box,
+         linear-gradient(white, white);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+   }
 }
 
 body {
@@ -20,6 +55,7 @@ body {
    text-rendering: optimizeLegibility;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+   font-family: var(--font-sans);
 }
 
 * {
@@ -28,13 +64,4 @@ body {
 
 html {
    scroll-behavior: smooth;
-}
-
-a {
-   color: inherit;
-   text-decoration: none;
-}
-
-button {
-   font: inherit;
 }
