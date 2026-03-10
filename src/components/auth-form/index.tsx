@@ -11,6 +11,7 @@ type AuthFormProps = {
 }
 
 export const AuthForm = ({ variant }: AuthFormProps) => {
+   const isRegisterForm = variant === 'register'
    const {
       title,
       subtitle,
@@ -24,23 +25,27 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
       button,
    } = authPageData[variant]
    const Logo = logo
-   const { form, handleSubmit, watch, handleIconClick, clearErrors } = useForm({
+   const formErrorsConfig = {
       ...errors,
-      terms:
-         variant === 'register'
-            ? {
-                 required: checkboxError,
-              }
-            : undefined,
-   })
+      terms: isRegisterForm ? { required: checkboxError } : undefined,
+   }
    const {
-      register,
+      form,
+      onSubmit,
+      watch,
+      handleIconClick,
+      clearErrors,
+      isPending,
+      submitError,
+      resetSubmitError,
+   } = useForm(variant, formErrorsConfig)
+   const {
+      register: registerField,
       formState: { errors: formErrors },
    } = form
-
-   const onSubmit = handleSubmit(() => undefined)
-   const termsField = register('terms')
-   const { ref: termsRef, ...termsInputProps } = termsField
+   const checkboxFieldName = isRegisterForm ? 'terms' : 'rememberMe'
+   const checkboxField = registerField(checkboxFieldName)
+   const { ref: checkboxRef, ...checkboxInputProps } = checkboxField
 
    return (
       <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 text-neutral-900 sm:px-6">
@@ -69,7 +74,7 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                   >
                      <div className="flex flex-col gap-4">
                         {inputs.map((input) => {
-                           const field = register(input.name)
+                           const field = registerField(input.name)
                            const { ref: fieldRef, ...fieldProps } = field
                            const normalizedValue = watch(input.name) ?? ''
                            const hasValue = normalizedValue.length > 0
@@ -97,6 +102,9 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                                  onChange={(event) => {
                                     fieldProps.onChange(event)
                                     clearErrors(input.name)
+                                    if (submitError) {
+                                       resetSubmitError()
+                                    }
                                  }}
                                  onRightIconClick={handleIconClick}
                               />
@@ -105,23 +113,42 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                      </div>
                      <div className="flex flex-col gap-1.5">
                         <Checkbox
-                           id="remember"
+                           id={checkboxFieldName}
                            label={checkbox}
-                           name={termsInputProps.name}
-                           ref={termsRef}
+                           name={checkboxInputProps.name}
+                           ref={checkboxRef}
+                           disabled={isPending}
                            onChange={(event) => {
-                              termsInputProps.onChange(event)
-                              clearErrors('terms')
+                              checkboxInputProps.onChange(event)
+                              clearErrors(checkboxFieldName)
+                              if (submitError) {
+                                 resetSubmitError()
+                              }
                            }}
                         />
-                        {formErrors.terms?.message ? (
+                        {formErrors[checkboxFieldName]?.message ? (
                            <p className="text-danger-500 text-sm leading-5 font-medium">
-                              {formErrors.terms.message}
+                              {formErrors[checkboxFieldName]?.message}
                            </p>
                         ) : null}
                      </div>
+                     {submitError ? (
+                        <div
+                           role="alert"
+                           aria-live="polite"
+                           className="border-danger-500/20 bg-danger-500/8 rounded-2xl border px-4 py-3"
+                        >
+                           <p className="text-danger-500 text-sm leading-5 font-medium">
+                              {submitError}
+                           </p>
+                        </div>
+                     ) : null}
                      <div className="flex w-full flex-col gap-4">
-                        <Button type="submit" className="w-full">
+                        <Button
+                           type="submit"
+                           className="w-full"
+                           disabled={isPending}
+                        >
                            {button}
                         </Button>
                         <Divider text={divider} />

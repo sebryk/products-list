@@ -1,11 +1,15 @@
+import { useMutation } from '@tanstack/react-query'
 import { useForm as useReactHookForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 
+import { login, register as registerUser } from '@/api/auth'
 import {
    createFormSchema,
    type InferFormValues,
    z,
    zodResolver,
 } from '@/lib/forms'
+import { useAuthStore } from '@/stores/auth'
 
 type AuthFormErrors = {
    login: {
@@ -24,8 +28,6 @@ type AuthFormErrors = {
 }
 
 const loginPattern = /^[A-Za-z0-9]+$/
-const passwordLetterPattern = /[A-Za-z]/
-const passwordDigitPattern = /\d/
 
 const createAuthSchema = (errors: AuthFormErrors) =>
    createFormSchema(
@@ -38,15 +40,8 @@ const createAuthSchema = (errors: AuthFormErrors) =>
          password: z
             .string()
             .min(1, errors.password.required)
-            .min(8, errors.password.min)
-            .refine(
-               (value) =>
-                  passwordLetterPattern.test(value) &&
-                  passwordDigitPattern.test(value),
-               {
-                  message: errors.password.pattern,
-               },
-            ),
+            .min(4, errors.password.min),
+         rememberMe: z.boolean(),
          terms: errors.terms
             ? z.boolean().refine((value) => value, {
                  message: errors.terms.required,
@@ -57,20 +52,35 @@ const createAuthSchema = (errors: AuthFormErrors) =>
 
 type AuthFormSchema = ReturnType<typeof createAuthSchema>
 export type AuthFormValues = InferFormValues<AuthFormSchema>
+type AuthFormVariant = 'login' | 'register'
 
-export const useForm = (errors: AuthFormErrors) => {
+export const useForm = (variant: AuthFormVariant, errors: AuthFormErrors) => {
+   const navigate = useNavigate()
+   const setSession = useAuthStore((state) => state.setSession)
    const schema = createAuthSchema(errors)
 
    const form = useReactHookForm<AuthFormValues>({
       defaultValues: {
          login: '',
          password: '',
+         rememberMe: false,
          terms: false,
       },
       mode: 'onSubmit',
       reValidateMode: 'onSubmit',
       resolver: zodResolver(schema),
    })
+   const loginMutation = useMutation({
+      mutationFn: login,
+   })
+   const registerMutation = useMutation({
+      mutationFn: registerUser,
+   })
+   const isPending = loginMutation.isPending || registerMutation.isPending
+   const submitError =
+      variant === 'login'
+         ? loginMutation.error?.message
+         : registerMutation.error?.message
 
    const handleIconClick = (name: string) => {
       if (name !== 'login') return
@@ -82,9 +92,38 @@ export const useForm = (errors: AuthFormErrors) => {
       })
    }
 
+   const resetSubmitError = () => {
+      loginMutation.reset()
+      registerMutation.reset()
+   }
+
+   const onSubmit = form.handleSubmit(async (values) => {
+      if (variant === 'login') {
+         const session = await loginMutation.mutateAsync({
+            login: values.login,
+            password: values.password,
+            rememberMe: values.rememberMe,
+         })
+
+         setSession(session)
+         navigate('/', { replace: true })
+
+         return
+      }
+
+      await registerMutation.mutateAsync({
+         login: values.login,
+         password: values.password,
+      })
+      navigate('/auth/login', { replace: true })
+   })
+
    return {
       form,
-      handleSubmit: form.handleSubmit,
+      onSubmit,
+      isPending,
+      submitError,
+      resetSubmitError,
       isValid: form.formState.isValid,
       watch: form.watch,
       setValue: form.setValue,
