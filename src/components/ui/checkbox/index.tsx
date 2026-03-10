@@ -7,7 +7,7 @@ type CheckboxProps = Omit<React.ComponentProps<'input'>, 'type'> & {
    label: React.ReactNode
 }
 
-function Checkbox({ className, id, label, ...props }: CheckboxProps) {
+const Checkbox = ({ className, id, label, ...props }: CheckboxProps) => {
    const generatedId = React.useId()
    const checkboxId = id ?? generatedId
 

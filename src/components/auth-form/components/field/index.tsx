@@ -16,14 +16,14 @@ type AuthFormFieldProps = {
    rightIcon?: SvgIcon
 }
 
-export function Field({
+export const Field = ({
    id,
    label,
    placeholder,
    type = 'text',
    leftIcon: LeftIcon,
    rightIcon: RightIcon,
-}: AuthFormFieldProps) {
+}: AuthFormFieldProps) => {
    return (
       <div className="flex w-full flex-col gap-1.5">
          <Label htmlFor={id} className="text-base leading-6.75 sm:text-lg">

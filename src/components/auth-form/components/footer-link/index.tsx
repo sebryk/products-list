@@ -6,7 +6,7 @@ type AuthFooterLinkProps = {
    to: string
 }
 
-export function FooterLink({ prefix, text, to }: AuthFooterLinkProps) {
+export const FooterLink = ({ prefix, text, to }: AuthFooterLinkProps) => {
    return (
       <p className="z-10 text-center text-base leading-6 text-neutral-600 sm:text-lg">
          {`${prefix} `}

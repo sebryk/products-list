@@ -10,7 +10,7 @@ type AuthFormProps = {
    variant: 'login' | 'register'
 }
 
-export function AuthForm({ variant }: AuthFormProps) {
+export const AuthForm = ({ variant }: AuthFormProps) => {
    const { title, subtitle, logo, inputs, checkbox, divider, link, button } =
       authPageData[variant]
    const Logo = logo
