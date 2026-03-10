@@ -18,19 +18,29 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
       inputs,
       errors,
       checkbox,
+      checkboxError,
       divider,
       link,
       button,
    } = authPageData[variant]
    const Logo = logo
-   const { form, handleSubmit, watch, handleIconClick, clearErrors } =
-      useForm(errors)
+   const { form, handleSubmit, watch, handleIconClick, clearErrors } = useForm({
+      ...errors,
+      terms:
+         variant === 'register'
+            ? {
+                 required: checkboxError,
+              }
+            : undefined,
+   })
    const {
       register,
       formState: { errors: formErrors },
    } = form
 
    const onSubmit = handleSubmit(() => undefined)
+   const termsField = register('terms')
+   const { ref: termsRef, ...termsInputProps } = termsField
 
    return (
       <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 text-neutral-900 sm:px-6">
@@ -60,6 +70,7 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                      <div className="flex flex-col gap-4">
                         {inputs.map((input) => {
                            const field = register(input.name)
+                           const { ref: fieldRef, ...fieldProps } = field
                            const normalizedValue = watch(input.name) ?? ''
                            const hasValue = normalizedValue.length > 0
                            const rightIcon = hasValue
@@ -72,19 +83,19 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                            return (
                               <Field
                                  key={input.name}
-                                 ref={field.ref}
+                                 ref={fieldRef}
                                  id={input.name}
                                  label={input.label}
                                  placeholder={input.placeholder}
                                  type={input.type}
-                                 name={field.name}
+                                 name={fieldProps.name}
                                  value={normalizedValue}
                                  error={formErrors[input.name]?.message}
                                  leftIcon={input.leftIcon}
                                  rightIcon={rightIcon}
                                  activeRightIcon={activeRightIcon}
                                  onChange={(event) => {
-                                    field.onChange(event)
+                                    fieldProps.onChange(event)
                                     clearErrors(input.name)
                                  }}
                                  onRightIconClick={handleIconClick}
@@ -92,7 +103,23 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                            )
                         })}
                      </div>
-                     <Checkbox id="remember" label={checkbox} />
+                     <div className="flex flex-col gap-1.5">
+                        <Checkbox
+                           id="remember"
+                           label={checkbox}
+                           name={termsInputProps.name}
+                           ref={termsRef}
+                           onChange={(event) => {
+                              termsInputProps.onChange(event)
+                              clearErrors('terms')
+                           }}
+                        />
+                        {formErrors.terms?.message ? (
+                           <p className="text-danger-500 text-sm leading-5 font-medium">
+                              {formErrors.terms.message}
+                           </p>
+                        ) : null}
+                     </div>
                      <div className="flex w-full flex-col gap-4">
                         <Button type="submit" className="w-full">
                            {button}

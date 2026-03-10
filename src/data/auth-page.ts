@@ -67,6 +67,7 @@ export const authPageData = {
          },
       },
       checkbox: 'Запомнить данные',
+      checkboxError: '',
       button: 'Войти',
       divider: 'или',
       link: {
@@ -95,6 +96,7 @@ export const authPageData = {
          },
       },
       checkbox: 'Я принимаю условия',
+      checkboxError: 'Нужно принять условия.',
       button: 'Создать аккаунт',
       divider: 'или',
       link: {

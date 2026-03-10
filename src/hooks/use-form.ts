@@ -18,14 +18,17 @@ type AuthFormErrors = {
       min: string
       pattern: string
    }
+   terms?: {
+      required: string
+   }
 }
 
 const loginPattern = /^[A-Za-z0-9]+$/
 const passwordLetterPattern = /[A-Za-z]/
 const passwordDigitPattern = /\d/
 
-function createAuthSchema(errors: AuthFormErrors) {
-   return createFormSchema(
+const createAuthSchema = (errors: AuthFormErrors) =>
+   createFormSchema(
       z.object({
          login: z
             .string()
@@ -44,20 +47,25 @@ function createAuthSchema(errors: AuthFormErrors) {
                   message: errors.password.pattern,
                },
             ),
+         terms: errors.terms
+            ? z.boolean().refine((value) => value, {
+                 message: errors.terms.required,
+              })
+            : z.boolean(),
       }),
    )
-}
 
 type AuthFormSchema = ReturnType<typeof createAuthSchema>
 export type AuthFormValues = InferFormValues<AuthFormSchema>
 
-export function useForm(errors: AuthFormErrors) {
+export const useForm = (errors: AuthFormErrors) => {
    const schema = createAuthSchema(errors)
 
    const form = useReactHookForm<AuthFormValues>({
       defaultValues: {
          login: '',
          password: '',
+         terms: false,
       },
       mode: 'onSubmit',
       reValidateMode: 'onSubmit',
