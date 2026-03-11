@@ -3,7 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getProducts, productsQueryKey } from '@/api/products'
 import type { ProductsSorting } from '@/data/products-page'
 
-const PRODUCTS_LIST_SELECT = 'id,title,category,brand,sku,rating,price,thumbnail'
+const PRODUCTS_LIST_SELECT =
+   'id,title,description,category,brand,sku,rating,price,thumbnail,dimensions,warrantyInformation,shippingInformation,availabilityStatus'
 
 export const useProductsQuery = (sorting: ProductsSorting | null) => {
    return useQuery({

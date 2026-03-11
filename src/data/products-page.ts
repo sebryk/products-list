@@ -8,11 +8,16 @@ export type ProductsTableRow = {
    id: number
    thumbnail: string | null
    name: string
+   description: string
    category: string
    vendor: string
    sku: string
    rating: string
    price: string
+   dimensions: string
+   warranty: string
+   shipping: string
+   availability: string
 }
 
 export type ProductsSortField =
@@ -44,6 +49,16 @@ export const productsPageData = {
       columnTemplate: 'grid-cols-[23.92%_13.1%_17%_13.1%_17%_15.88%]',
       loadingRowsCount: 30,
       errorMessage: 'Не удалось загрузить товары.',
+      detailsPopover: {
+         title: 'Информация о товаре',
+         fields: {
+            description: 'Описание',
+            dimensions: 'Размеры',
+            warranty: 'Гарантия',
+            shipping: 'Доставка',
+            availability: 'Доступность',
+         },
+      },
       columns: [
          { key: 'name', label: 'Наименование', sortBy: 'title' },
          { key: 'vendor', label: 'Вендор', sortBy: 'brand' },

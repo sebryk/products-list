@@ -25,28 +25,47 @@ const formatPrice = (price: number) =>
    }).format(price)
 
 const formatCategory = (category: string) => category.replaceAll('-', ' ')
+const formatDimensions = (dimensions?: ProductsApiItem['dimensions']) => {
+   if (!dimensions) {
+      return '—'
+   }
+
+   const { width, height, depth } = dimensions
+
+   return `${width} × ${height} × ${depth} см`
+}
 
 const mapProductToListItem = (product: ProductsApiItem): ProductListItem => {
    const {
       id,
       title,
+      description,
       category,
       brand,
       sku,
       rating,
       price,
       thumbnail,
+      dimensions,
+      warrantyInformation,
+      shippingInformation,
+      availabilityStatus,
    } = product
 
    return {
       id,
       thumbnail: thumbnail || null,
       name: title,
+      description: description?.trim() || '—',
       category: formatCategory(category),
       vendor: brand?.trim() || '—',
       sku: sku?.trim() || '—',
       rating: `${rating.toFixed(1)}/5`,
       price: formatPrice(price),
+      dimensions: formatDimensions(dimensions),
+      warranty: warrantyInformation?.trim() || '—',
+      shipping: shippingInformation?.trim() || '—',
+      availability: availabilityStatus?.trim() || '—',
    }
 }
 

@@ -1,11 +1,14 @@
 import DotsIcon from '@/assets/products-page/icons/dots.svg?react'
+import MinusIcon from '@/assets/products-page/icons/minus.svg?react'
 import PlusIcon from '@/assets/products-page/icons/plus.svg?react'
+import { ProductsDetailsPopover } from '@/components/products-details-popover'
 import { TableCheckbox } from '@/components/products-table/components/checkbox'
 import { Button } from '@/components/ui/button'
 import {
    productsPageData,
    type ProductsTableRow as ProductsTableRowData,
 } from '@/data/products-page'
+import { useModal } from '@/hooks/use-modal'
 
 type ProductsTableRowProps = {
    row: ProductsTableRowData
@@ -19,6 +22,10 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
       table: { columnTemplate },
    } = productsPageData
    const [priceMain, priceFraction = '00'] = price.split(',')
+   const [ratingMain, ratingSuffix = ''] = rating.split('/')
+   const ratingValue = Number.parseFloat(ratingMain)
+   const isLowRating = !Number.isNaN(ratingValue) && ratingValue < 3
+   const { isOpen, openModal, closeModal } = useModal()
 
    return (
       <div className="relative h-17.75 px-4.5">
@@ -64,8 +71,11 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
                </span>
             </div>
             <div className="flex items-center justify-center">
-               <span className="text-neutral-1000 font-open-sans text-base leading-none font-normal">
-                  {rating}
+               <span className="font-open-sans text-neutral-1000 text-base leading-none font-normal">
+                  <span className={isLowRating ? 'text-danger-500' : ''}>
+                     {ratingMain}
+                  </span>
+                  {ratingSuffix ? `/${ratingSuffix}` : ''}
                </span>
             </div>
             <div className="flex items-center justify-center">
@@ -77,14 +87,32 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
             <div className="flex items-center justify-center gap-8 pr-10.5">
                <Button
                   variant="elips-icon"
-                  aria-label="Добавить товар"
-                  onClick={() => !isSelected && onToggle()}
+                  aria-label={
+                     isSelected ? 'Убрать товар из выбранных' : 'Добавить товар'
+                  }
+                  onClick={() => onToggle()}
                >
-                  <PlusIcon className="size-6" />
+                  {isSelected ? (
+                     <MinusIcon className="size-6" />
+                  ) : (
+                     <PlusIcon className="size-6" />
+                  )}
                </Button>
-               <Button variant="more" aria-label="Дополнительные действия">
-                  <DotsIcon className="size-8" />
-               </Button>
+               <div
+                  className="relative"
+                  onMouseEnter={openModal}
+                  onMouseLeave={closeModal}
+               >
+                  <Button
+                     variant="more"
+                     aria-label="Дополнительные действия"
+                     onFocus={openModal}
+                     onBlur={closeModal}
+                  >
+                     <DotsIcon className="size-8" />
+                  </Button>
+                  {isOpen && <ProductsDetailsPopover product={row} />}
+               </div>
             </div>
          </div>
       </div>
