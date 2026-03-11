@@ -12,18 +12,17 @@ import { useProductsSorting } from '@/hooks/use-products-sorting'
 export function ProductsPage() {
    const { sorting, debouncedSorting, handleSortToggle } = useProductsSorting()
    const { page, setPage } = useProductsPagination()
-   const { data, isLoading, isError, isFetching, refetch } =
-      useProductsQuery(debouncedSorting, page)
+   const { data, isLoading, isError, isFetching, refetch } = useProductsQuery(
+      debouncedSorting,
+      page,
+   )
    const { isSelected, isAllSelected, toggleOne, toggleAll } =
       useProductsSelection(data?.items)
 
-   const handlePageChange = useCallback(
-      (nextPage: number) => {
-         window.scrollTo({ top: 0, behavior: 'smooth' })
-         setPage(nextPage)
-      },
-      [setPage],
-   )
+   const handlePageChange = (nextPage: number) => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setPage(nextPage)
+   }
 
    useEffect(() => {
       if (!data?.totalPages || page <= data.totalPages) {
@@ -31,7 +30,7 @@ export function ProductsPage() {
       }
 
       setPage(data.totalPages, true)
-   }, [data?.totalPages, page, setPage])
+   }, [data?.totalPages, page])
 
    return (
       <main className="min-h-screen bg-neutral-100 pt-5 text-neutral-900">

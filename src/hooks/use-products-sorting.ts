@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { productsSortFields } from '@/api/products'
@@ -21,43 +21,24 @@ const isSortField = (
    value !== null &&
    productsSortFields.includes(value as (typeof productsSortFields)[number])
 
-const parseSorting = (
-   searchParams: URLSearchParams,
-): ProductsSorting | null => {
-   const sortBy = searchParams.get('sortBy')
-   const order = searchParams.get('order')
-
-   if (!isSortField(sortBy) || !isSortOrder(order)) return null
-
-   return { sortBy, order }
-}
-
 const parseStoredSorting = (): ProductsSorting | null => {
    if (typeof window === 'undefined') return null
 
-   const storedSorting = window.localStorage.getItem(
-      PRODUCTS_SORTING_STORAGE_KEY,
-   )
-
-   if (!storedSorting) return null
+   const raw = window.localStorage.getItem(PRODUCTS_SORTING_STORAGE_KEY)
+   if (!raw) return null
 
    try {
-      const parsedSorting = JSON.parse(storedSorting) as {
+      const { sortBy, order } = JSON.parse(raw) as {
          sortBy?: string
          order?: string
       }
-      const { sortBy, order } = parsedSorting
 
-      if (!isSortField(sortBy ?? null) || !isSortOrder(order ?? null)) {
+      if (!isSortField(sortBy ?? null) || !isSortOrder(order ?? null))
          return null
-      }
-
-      const validSortBy = sortBy as ProductsSorting['sortBy']
-      const validOrder = order as ProductsSorting['order']
 
       return {
-         sortBy: validSortBy,
-         order: validOrder,
+         sortBy: sortBy as ProductsSorting['sortBy'],
+         order: order as ProductsSorting['order'],
       }
    } catch {
       return null
@@ -67,30 +48,33 @@ const parseStoredSorting = (): ProductsSorting | null => {
 const getNextSorting = (
    current: ProductsSorting | null,
    column: ProductsTableColumn,
-): ProductsSorting => {
-   const isSameColumn = current?.sortBy === column.sortBy
-   return {
-      sortBy: column.sortBy,
-      order: isSameColumn && current.order === 'asc' ? 'desc' : 'asc',
-   }
-}
+): ProductsSorting => ({
+   sortBy: column.sortBy,
+   order:
+      current?.sortBy === column.sortBy && current.order === 'asc'
+         ? 'desc'
+         : 'asc',
+})
 
 export const useProductsSorting = () => {
    const [searchParams, setSearchParams] = useSearchParams()
-   const searchParamsSorting = useMemo(
-      () => parseSorting(searchParams),
-      [searchParams],
-   )
-   const storedSorting = useMemo(() => parseStoredSorting(), [])
+   const [storedSorting] = useState(() => parseStoredSorting())
+
+   const sortBy = searchParams.get('sortBy')
+   const order = searchParams.get('order')
+
+   const searchParamsSorting =
+      isSortField(sortBy) && isSortOrder(order) ? { sortBy, order } : null
+
    const sorting = useMemo(
       () => searchParamsSorting ?? storedSorting,
-      [searchParamsSorting, storedSorting],
+      [sortBy, order, storedSorting],
    )
 
    const debouncedSorting = useDebouncedValue(sorting, SORT_DEBOUNCE_DELAY)
 
    useEffect(() => {
-      if (!storedSorting || searchParamsSorting) return
+      if (!storedSorting || (isSortField(sortBy) && isSortOrder(order))) return
 
       setSearchParams(
          (prev) => {
@@ -101,10 +85,10 @@ export const useProductsSorting = () => {
          },
          { replace: true },
       )
-   }, [searchParamsSorting, setSearchParams, storedSorting])
+   }, [sortBy, order, setSearchParams, storedSorting])
 
    useEffect(() => {
-      if (typeof window === 'undefined' || !sorting) return
+      if (!sorting) return
 
       window.localStorage.setItem(
          PRODUCTS_SORTING_STORAGE_KEY,
@@ -112,19 +96,16 @@ export const useProductsSorting = () => {
       )
    }, [sorting])
 
-   const handleSortToggle = useCallback(
-      (column: ProductsTableColumn) => {
-         const { sortBy, order } = getNextSorting(sorting, column)
+   const handleSortToggle = (column: ProductsTableColumn) => {
+      const { sortBy, order } = getNextSorting(sorting, column)
 
-         setSearchParams((prev) => {
-            const next = new URLSearchParams(prev)
-            next.set('sortBy', sortBy)
-            next.set('order', order)
-            return next
-         })
-      },
-      [sorting, setSearchParams],
-   )
+      setSearchParams((prev) => {
+         const next = new URLSearchParams(prev)
+         next.set('sortBy', sortBy)
+         next.set('order', order)
+         return next
+      })
+   }
 
    return { sorting, debouncedSorting, handleSortToggle }
 }
