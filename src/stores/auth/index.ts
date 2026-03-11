@@ -6,7 +6,7 @@ import {
    saveAuthSession,
 } from '@/lib/auth-storage'
 import { getCurrentUser, refreshSessionTokens } from '@/api/auth'
-import type { AuthSession, AuthUser } from '@/stores/types/auth'
+import type { AuthSession, AuthUser } from '@/stores/auth/types'
 
 type AuthStatus = 'idle' | 'loading' | 'authenticated' | 'guest'
 

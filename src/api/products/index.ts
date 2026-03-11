@@ -1,36 +1,13 @@
 import type {
-   ProductsSortField,
-   ProductsSorting,
-} from '@/data/products-page'
+   GetProductsOptions,
+   ProductListItem,
+   ProductsApiItem,
+   ProductsApiResponse,
+} from '@/api/products/types'
+import type { ProductsSortField } from '@/data/products-page'
 
 const API_BASE_URL = 'https://dummyjson.com'
 const PRODUCTS_LIMIT = 30
-
-type ProductsApiItem = {
-   id: number
-   title: string
-   category: string
-   brand?: string
-   sku?: string
-   rating: number
-   price: number
-   thumbnail?: string
-}
-
-type ProductsApiResponse = {
-   products: ProductsApiItem[]
-}
-
-export type ProductListItem = {
-   id: number
-   thumbnail: string | null
-   name: string
-   category: string
-   vendor: string
-   sku: string
-   rating: string
-   price: string
-}
 
 export const productsQueryKey = ['products'] as const
 export const productsSortFields = [
@@ -71,11 +48,6 @@ const mapProductToListItem = (product: ProductsApiItem): ProductListItem => {
       rating: `${rating.toFixed(1)}/5`,
       price: formatPrice(price),
    }
-}
-
-type GetProductsOptions = {
-   signal?: AbortSignal
-   sorting: ProductsSorting | null
 }
 
 export const getProducts = async ({

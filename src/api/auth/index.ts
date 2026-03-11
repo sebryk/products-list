@@ -1,47 +1,20 @@
-import type { AuthSession, AuthUser } from '@/stores/types/auth'
+import type {
+   ApiErrorResponse,
+   LoginCredentials,
+   LoginResponse,
+   RefreshResponse,
+   RegisterPayload,
+   RequestOptions,
+} from '@/api/auth/types'
+import { RequestError } from '@/api/auth/types'
+import type { AuthSession, AuthUser } from '@/stores/auth/types'
 
 const API_BASE_URL = 'https://dummyjson.com'
 const ACCESS_TOKEN_TTL_MINUTES = 30
 
-type RequestOptions = Omit<RequestInit, 'body'> & {
-   body?: Record<string, unknown>
-}
-
-type DummyJsonErrorResponse = {
-   message?: string
-}
-
-type RequestErrorOptions = {
-   status?: number
-   code: 'network' | 'invalid_credentials' | 'register_failed' | 'unknown'
-   message: string
-}
-
-class RequestError extends Error {
-   status?: number
-   code: RequestErrorOptions['code']
-
-   constructor({ code, message, status }: RequestErrorOptions) {
-      super(message)
-      this.name = 'RequestError'
-      this.code = code
-      this.status = status
-   }
-}
-
-type LoginResponse = AuthUser & {
-   accessToken: string
-   refreshToken: string
-}
-
-type RefreshResponse = {
-   accessToken: string
-   refreshToken: string
-}
-
 const getErrorPayload = async (response: Response) => {
    try {
-      return (await response.json()) as DummyJsonErrorResponse
+      return (await response.json()) as ApiErrorResponse
    } catch {
       return {}
    }
@@ -116,11 +89,9 @@ const toRegisterError = (error: unknown) => {
    })
 }
 
-export const login = async (credentials: {
-   login: string
-   password: string
-   rememberMe: boolean
-}): Promise<AuthSession> => {
+export const login = async (
+   credentials: LoginCredentials,
+): Promise<AuthSession> => {
    try {
       const response = await request<LoginResponse>('/auth/login', {
          method: 'POST',
@@ -150,10 +121,7 @@ export const login = async (credentials: {
    }
 }
 
-export const register = async (payload: {
-   login: string
-   password: string
-}) => {
+export const register = async (payload: RegisterPayload) => {
    try {
       return await request<AuthUser>('/users/add', {
          method: 'POST',

@@ -2,8 +2,8 @@ import { Header } from '@/components/products-table/components/header'
 import { Progress } from '@/components/ui/progress'
 import { Row } from '@/components/products-table/components/row'
 import { RowSkeleton } from '@/components/products-table/components/row/components/skeleton'
+import type { ProductListItem } from '@/api/products/types'
 import { productsPageData } from '@/data/products-page'
-import type { ProductListItem } from '@/api/products'
 import type { ProductsSorting, ProductsTableColumn } from '@/data/products-page'
 
 type ProductsTableProps = {
