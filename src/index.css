@@ -9,6 +9,7 @@
    --color-neutral-100: #f9f9f9;
    --color-neutral-200: #ededed;
    --color-neutral-500: #9c9c9c;
+   --color-neutral-550: #b2b3b9;
    --color-neutral-600: #6c6c6c;
    --color-neutral-900: #232323;
 
@@ -43,6 +44,9 @@
          rgba(237, 237, 237, 0) 100%
       );
       -webkit-mask:
+         linear-gradient(white, white) content-box,
+         linear-gradient(white, white);
+      mask:
          linear-gradient(white, white) content-box,
          linear-gradient(white, white);
       -webkit-mask-composite: xor;
