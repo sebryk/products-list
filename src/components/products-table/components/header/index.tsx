@@ -9,15 +9,22 @@ import {
 type HeaderProps = {
    sorting: ProductsSorting | null
    onSortToggle: (column: ProductsTableColumn) => void
+   isAllSelected: boolean
+   onToggleAll: () => void
 }
 
-export const Header = ({ sorting, onSortToggle }: HeaderProps) => {
+export const Header = ({
+   sorting,
+   onSortToggle,
+   isAllSelected,
+   onToggleAll,
+}: HeaderProps) => {
    const {
       table: { columnTemplate, columns },
    } = productsPageData
 
    return (
-      <div className={`grid items-center ${columnTemplate}`}>
+      <div className={`grid items-center ${columnTemplate} px-4.5`}>
          {columns.map((column, index) => {
             const isFirstColumn = index === 0
             const isActive = sorting?.sortBy === column.sortBy
@@ -28,7 +35,13 @@ export const Header = ({ sorting, onSortToggle }: HeaderProps) => {
                   key={column.key}
                   className={`flex items-center ${isFirstColumn ? 'gap-5' : 'justify-center'}`}
                >
-                  {isFirstColumn && <TableCheckbox />}
+                  {isFirstColumn && (
+                     <TableCheckbox
+                        checked={isAllSelected}
+                        onChange={onToggleAll}
+                        ariaLabel="Выбрать все товары"
+                     />
+                  )}
                   <button
                      type="button"
                      onClick={() => onSortToggle(column)}

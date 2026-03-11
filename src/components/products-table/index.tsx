@@ -13,6 +13,10 @@ type ProductsTableProps = {
    isFetching: boolean
    sorting: ProductsSorting | null
    onSortToggle: (column: ProductsTableColumn) => void
+   isAllSelected: boolean
+   onToggleAll: () => void
+   isSelected: (id: number) => boolean
+   onToggleRow: (id: number) => void
 }
 
 export const ProductsTable = ({
@@ -22,6 +26,10 @@ export const ProductsTable = ({
    isFetching,
    sorting,
    onSortToggle,
+   isAllSelected,
+   onToggleAll,
+   isSelected,
+   onToggleRow,
 }: ProductsTableProps) => {
    const {
       table: { loadingRowsCount, errorMessage },
@@ -29,8 +37,13 @@ export const ProductsTable = ({
 
    return (
       <section className="px-7.5">
-         <div className="bg-neutral-0 rounded-2.5 px-4.5 py-6">
-            <Header sorting={sorting} onSortToggle={onSortToggle} />
+         <div className="bg-neutral-0 rounded-2.5 py-6">
+            <Header
+               sorting={sorting}
+               onSortToggle={onSortToggle}
+               isAllSelected={isAllSelected}
+               onToggleAll={onToggleAll}
+            />
             <div className="relative mt-6">
                <div className="pointer-events-none absolute inset-x-0 top-0 z-10">
                   <Progress isActive={isFetching} />
@@ -61,7 +74,11 @@ export const ProductsTable = ({
                            key={row.id}
                            className="border-b border-neutral-200 last:border-b-0"
                         >
-                           <Row row={row} />
+                           <Row
+                              row={row}
+                              isSelected={isSelected(row.id)}
+                              onToggle={() => onToggleRow(row.id)}
+                           />
                         </div>
                      ))}
                   </div>

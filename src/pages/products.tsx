@@ -1,6 +1,7 @@
 import { ProductsControlBar } from '@/components/products-control-bar'
 import { ProductsSearch } from '@/components/products-search'
 import { ProductsTable } from '@/components/products-table'
+import { useProductsSelection } from '@/hooks/use-products-selection'
 import { useProductsQuery } from '@/hooks/use-products-query'
 import { useProductsSorting } from '@/hooks/use-products-sorting'
 
@@ -9,6 +10,8 @@ export function ProductsPage() {
       useProductsSorting()
    const { data, isLoading, isError, isFetching, refetch } =
       useProductsQuery(debouncedSorting)
+   const { isSelected, isAllSelected, toggleOne, toggleAll } =
+      useProductsSelection(data)
 
    return (
       <main className="min-h-screen bg-neutral-100 pt-5 text-neutral-900">
@@ -27,6 +30,10 @@ export function ProductsPage() {
                isFetching={isFetching}
                sorting={sorting}
                onSortToggle={handleSortToggle}
+               isAllSelected={isAllSelected}
+               onToggleAll={toggleAll}
+               isSelected={isSelected}
+               onToggleRow={toggleOne}
             />
          </div>
       </main>

@@ -9,8 +9,10 @@ import type {
 import { RequestError } from '@/api/auth/types'
 import type { AuthSession, AuthUser } from '@/stores/auth/types'
 
-const API_BASE_URL = 'https://dummyjson.com'
-const ACCESS_TOKEN_TTL_MINUTES = 30
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const ACCESS_TOKEN_TTL_MINUTES = Number(
+   import.meta.env.VITE_ACCESS_TOKEN_TTL_MINUTES,
+)
 
 const getErrorPayload = async (response: Response) => {
    try {

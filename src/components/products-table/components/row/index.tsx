@@ -9,9 +9,11 @@ import {
 
 type ProductsTableRowProps = {
    row: ProductsTableRowData
+   isSelected: boolean
+   onToggle: () => void
 }
 
-export const Row = ({ row }: ProductsTableRowProps) => {
+export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
    const { thumbnail, name, category, vendor, sku, rating, price } = row
    const {
       table: { columnTemplate },
@@ -19,10 +21,20 @@ export const Row = ({ row }: ProductsTableRowProps) => {
    const [priceMain, priceFraction = '00'] = price.split(',')
 
    return (
-      <div className="h-17.75">
+      <div className="relative h-17.75 px-4.5">
+         {isSelected && (
+            <span
+               aria-hidden="true"
+               className="bg-secondary-500 absolute top-0 left-0 h-17.75 w-0.75"
+            />
+         )}
          <div className={`grid h-full ${columnTemplate} items-center`}>
             <div className="flex items-center gap-4.5">
-               <TableCheckbox />
+               <TableCheckbox
+                  checked={isSelected}
+                  onChange={onToggle}
+                  ariaLabel={`Выбрать товар ${name}`}
+               />
                {thumbnail ? (
                   <img
                      src={thumbnail}
@@ -63,7 +75,11 @@ export const Row = ({ row }: ProductsTableRowProps) => {
                </span>
             </div>
             <div className="flex items-center justify-center gap-8 pr-10.5">
-               <Button variant="elips-icon" aria-label="Добавить товар">
+               <Button
+                  variant="elips-icon"
+                  aria-label="Добавить товар"
+                  onClick={() => !isSelected && onToggle()}
+               >
                   <PlusIcon className="size-6" />
                </Button>
                <Button variant="more" aria-label="Дополнительные действия">

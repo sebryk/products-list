@@ -6,8 +6,8 @@ import type {
 } from '@/api/products/types'
 import type { ProductsSortField } from '@/data/products-page'
 
-const API_BASE_URL = 'https://dummyjson.com'
-const PRODUCTS_LIMIT = 30
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const PRODUCTS_LIMIT = Number(import.meta.env.VITE_PRODUCTS_LIMIT)
 
 export const productsQueryKey = ['products'] as const
 export const productsSortFields = [
@@ -53,10 +53,11 @@ const mapProductToListItem = (product: ProductsApiItem): ProductListItem => {
 export const getProducts = async ({
    signal,
    sorting,
+   select,
 }: GetProductsOptions): Promise<ProductListItem[]> => {
    const params = new URLSearchParams({
       limit: String(PRODUCTS_LIMIT),
-      select: 'id,title,category,brand,sku,rating,price,thumbnail',
+      select,
    })
 
    if (sorting) {

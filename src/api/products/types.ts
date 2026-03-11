@@ -29,4 +29,5 @@ export type ProductListItem = {
 export type GetProductsOptions = {
    signal?: AbortSignal
    sorting: ProductsSorting | null
+   select: string
 }
