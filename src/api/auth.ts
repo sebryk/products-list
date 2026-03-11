@@ -1,4 +1,4 @@
-import type { AuthSession, AuthUser } from '@/types/auth'
+import type { AuthSession, AuthUser } from '@/stores/types/auth'
 
 const API_BASE_URL = 'https://dummyjson.com'
 const ACCESS_TOKEN_TTL_MINUTES = 30

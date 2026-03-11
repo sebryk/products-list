@@ -15,7 +15,7 @@ export const GuestRoute = ({ children }: PropsWithChildren) => {
    }
 
    if (status === 'authenticated') {
-      return <Navigate to="/" replace={true} />
+      return <Navigate to="/products" replace={true} />
    }
 
    return children

@@ -1,4 +1,4 @@
-import type { AuthSession } from '@/types/auth'
+import type { AuthSession } from '@/stores/types/auth'
 
 const AUTH_STORAGE_KEY = 'aiti-guru.auth-session'
 

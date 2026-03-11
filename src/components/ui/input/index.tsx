@@ -1,24 +1,51 @@
 import * as React from 'react'
+import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
+import { variants } from './variants'
 
-type InputProps = React.ComponentProps<'input'> & {
-   hasError?: boolean
-}
+type InputIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>
+
+type InputProps = React.ComponentProps<'input'> &
+   VariantProps<typeof variants> & {
+      hasError?: boolean
+      startIcon?: InputIcon
+   }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-   ({ className, type = 'text', hasError = false, ...props }, ref) => {
+   (
+      {
+         className,
+         type = 'text',
+         hasError = false,
+         variant,
+         startIcon: StartIcon,
+         ...props
+      },
+      ref,
+   ) => {
       return (
-         <input
-            ref={ref}
-            type={type}
-            className={cn(
-               'bg-neutral-0 focus-visible:ring-primary-500/40 flex h-14 w-full rounded-xl border-[1.5px] px-4 py-3 text-lg text-neutral-900 outline-none placeholder:text-neutral-500 focus-visible:ring-2',
-               hasError ? 'border-danger-500' : 'border-neutral-200',
-               className,
+         <div className="relative w-full">
+            {StartIcon && (
+               <StartIcon
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-1/2 left-5 size-6 -translate-y-1/2 text-neutral-500"
+               />
             )}
-            {...props}
-         />
+            <input
+               ref={ref}
+               type={type}
+               className={cn(
+                  variants({ variant }),
+                  hasError
+                     ? 'border-danger-500'
+                     : variant !== 'search' && 'border-neutral-200',
+                  StartIcon && 'pl-13',
+                  className,
+               )}
+               {...props}
+            />
+         </div>
       )
    },
 )

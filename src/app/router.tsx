@@ -1,10 +1,10 @@
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 
 import { GuestRoute } from '@/app/routes/guest-route'
 import { ProtectedRoute } from '@/app/routes/protected-route'
-import { HomePage } from '@/pages/home'
 import { LoginPage } from '@/pages/auth/login'
 import { RegisterPage } from '@/pages/auth/register'
+import { ProductsPage } from '@/pages/products'
 
 export function AppRouter() {
    return (
@@ -13,7 +13,15 @@ export function AppRouter() {
             path="/"
             element={
                <ProtectedRoute>
-                  <HomePage />
+                  <Navigate to="/products" replace={true} />
+               </ProtectedRoute>
+            }
+         />
+         <Route
+            path="/products"
+            element={
+               <ProtectedRoute>
+                  <ProductsPage />
                </ProtectedRoute>
             }
          />
