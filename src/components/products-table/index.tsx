@@ -1,5 +1,6 @@
 import { Header } from '@/components/products-table/components/header'
 import { Progress } from '@/components/ui/progress'
+import { Pagination } from '@/components/ui/pagination'
 import { Row } from '@/components/products-table/components/row'
 import { RowSkeleton } from '@/components/products-table/components/row/components/skeleton'
 import type { ProductListItem } from '@/api/products/types'
@@ -8,11 +9,17 @@ import type { ProductsSorting, ProductsTableColumn } from '@/data/products-page'
 
 type ProductsTableProps = {
    data: ProductListItem[] | undefined
+   page: number
+   total: number
+   limit: number
+   totalPages: number
+   hasNextPage: boolean
    isLoading: boolean
    isError: boolean
    isFetching: boolean
    sorting: ProductsSorting | null
    onSortToggle: (column: ProductsTableColumn) => void
+   onPageChange: (page: number) => void
    isAllSelected: boolean
    onToggleAll: () => void
    isSelected: (id: number) => boolean
@@ -21,19 +28,30 @@ type ProductsTableProps = {
 
 export const ProductsTable = ({
    data,
+   page,
+   total,
+   limit,
+   totalPages,
+   hasNextPage,
    isLoading,
    isError,
    isFetching,
    sorting,
    onSortToggle,
+   onPageChange,
    isAllSelected,
    onToggleAll,
    isSelected,
    onToggleRow,
 }: ProductsTableProps) => {
    const {
-      table: { loadingRowsCount, errorMessage },
+      table: { loadingRowsCount, errorMessage, pagination },
    } = productsPageData
+   const shownFrom = total === 0 ? 0 : (page - 1) * limit + 1
+   const shownTo =
+      total === 0
+         ? 0
+         : Math.min((page - 1) * limit + (data?.length ?? 0), total)
 
    return (
       <section className="px-7.5">
@@ -83,6 +101,22 @@ export const ProductsTable = ({
                      ))}
                   </div>
                )}
+            </div>
+            <div className="mt-12.75 flex items-center justify-between gap-6">
+               <p className="font-cairo text-[18px] leading-none text-neutral-400">
+                  {pagination.shownLabel}{' '}
+                  <span className="text-neutral-900">
+                     {shownFrom}-{shownTo}
+                  </span>{' '}
+                  {pagination.totalLabel}{' '}
+                  <span className="text-neutral-900">{total}</span>
+               </p>
+               <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  hasNextPage={hasNextPage}
+                  onPageChange={onPageChange}
+               />
             </div>
          </div>
       </section>

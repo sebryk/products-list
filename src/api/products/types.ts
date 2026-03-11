@@ -24,13 +24,16 @@ export type ProductsApiItem = {
 
 export type ProductsApiResponse = {
    products: ProductsApiItem[]
+   total: number
+   skip: number
+   limit: number
 }
 
 export type ProductListItem = {
    id: number
    thumbnail: string | null
    name: string
-    description: string
+   description: string
    category: string
    vendor: string
    sku: string
@@ -42,8 +45,18 @@ export type ProductListItem = {
    availability: string
 }
 
+export type ProductsListResponse = {
+   items: ProductListItem[]
+   page: number
+   limit: number
+   total: number
+   totalPages: number
+   hasNextPage: boolean
+}
+
 export type GetProductsOptions = {
    signal?: AbortSignal
    sorting: ProductsSorting | null
+   page: number
    select: string
 }

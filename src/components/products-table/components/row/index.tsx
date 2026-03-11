@@ -32,7 +32,7 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
          {isSelected && (
             <span
                aria-hidden="true"
-               className="bg-secondary-500 absolute top-0 left-0 h-17.75 w-0.75"
+               className="bg-primary-600 absolute top-0 left-0 h-17.75 w-0.75"
             />
          )}
          <div className={`grid h-full ${columnTemplate} items-center`}>

@@ -106,6 +106,13 @@ export const productsPageData = {
       columnTemplate: 'grid-cols-[23.92%_13.1%_17%_13.1%_17%_15.88%]',
       loadingRowsCount: 30,
       errorMessage: 'Не удалось загрузить товары.',
+      pagination: {
+         previousLabel: 'Предыдущая страница',
+         nextLabel: 'Следующая страница',
+         pageLabel: 'Страница',
+         shownLabel: 'Показано',
+         totalLabel: 'из',
+      },
       detailsPopover: {
          title: 'Информация о товаре',
          fields: {

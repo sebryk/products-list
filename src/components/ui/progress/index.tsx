@@ -42,7 +42,7 @@ export const Progress = ({ isActive }: ProgressProps) => {
          setIsVisible(false)
          setIsCompleting(false)
          setIsStarted(false)
-      }, 180)
+      }, 50)
 
       return () => {
          clearTimeout(completeTimeoutId)
@@ -58,7 +58,7 @@ export const Progress = ({ isActive }: ProgressProps) => {
       : '-translate-x-full opacity-100'
 
    const progressStateClass = isCompleting
-      ? 'w-full translate-x-0 opacity-100 transition-[width,opacity] duration-180 ease-in'
+      ? 'w-full translate-x-0 opacity-100 transition-[width,opacity] duration-50 ease-in'
       : cn('w-1/2 transition-transform duration-260 ease-out', transitionClass)
 
    return (

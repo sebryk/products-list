@@ -20,7 +20,7 @@ export const TableCheckbox = ({
          />
          <span
             aria-hidden="true"
-            className="border-neutral-550 peer-checked:bg-secondary-500 peer-checked:border-secondary-500 size-5.5 rounded border"
+            className="border-neutral-550 peer-checked:bg-primary-600 peer-checked:border-primary-600 size-5.5 rounded border"
          />
       </label>
    )

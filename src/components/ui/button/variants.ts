@@ -21,6 +21,8 @@ export const variants = cva(
             'elips-icon':
                'h-6.75 min-w-13 cursor-pointer rounded-[5.75rem] bg-primary-600 px-1 text-neutral-0 hover:bg-primary-500',
             more: 'size-8 p-[3px] cursor-pointer rounded-full bg-transparent text-neutral-550 hover:bg-neutral-100',
+            pagination:
+               'size-[30px] cursor-pointer rounded-[4px] border border-neutral-250 bg-neutral-0 p-0 text-sm leading-none font-medium text-neutral-500 shadow-[0_20px_50px_0_rgba(0,0,0,0.12)] hover:border-neutral-450 hover:text-neutral-900',
          },
       },
       defaultVariants: {

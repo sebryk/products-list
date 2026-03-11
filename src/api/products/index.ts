@@ -3,6 +3,7 @@ import type {
    ProductListItem,
    ProductsApiItem,
    ProductsApiResponse,
+   ProductsListResponse,
 } from '@/api/products/types'
 import type { ProductsSortField } from '@/data/products-page'
 
@@ -72,10 +73,12 @@ const mapProductToListItem = (product: ProductsApiItem): ProductListItem => {
 export const getProducts = async ({
    signal,
    sorting,
+   page,
    select,
-}: GetProductsOptions): Promise<ProductListItem[]> => {
+}: GetProductsOptions): Promise<ProductsListResponse> => {
    const params = new URLSearchParams({
       limit: String(PRODUCTS_LIMIT),
+      skip: String((page - 1) * PRODUCTS_LIMIT),
       select,
    })
 
@@ -94,5 +97,12 @@ export const getProducts = async ({
 
    const data = (await response.json()) as ProductsApiResponse
 
-   return data.products.map(mapProductToListItem)
+   return {
+      items: data.products.map(mapProductToListItem),
+      page,
+      limit: data.limit,
+      total: data.total,
+      totalPages: Math.ceil(data.total / data.limit),
+      hasNextPage: data.skip + data.products.length < data.total,
+   }
 }

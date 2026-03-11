@@ -9,7 +9,7 @@ import type {
    ProductsTableColumn,
 } from '@/data/products-page'
 
-const SORT_DEBOUNCE_DELAY = 180
+const SORT_DEBOUNCE_DELAY = 50
 const PRODUCTS_SORTING_STORAGE_KEY = 'aiti-guru.products-sorting'
 
 const isSortOrder = (value: string | null): value is ProductsSortOrder =>
