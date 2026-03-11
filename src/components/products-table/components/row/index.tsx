@@ -85,34 +85,22 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
                </span>
             </div>
             <div className="flex items-center justify-center gap-8 pr-10.5">
-               <Button
-                  variant="elips-icon"
-                  aria-label={
-                     isSelected ? 'Убрать товар из выбранных' : 'Добавить товар'
-                  }
-                  onClick={() => onToggle()}
-               >
+               <Button variant="elips-icon" onClick={() => onToggle()}>
                   {isSelected ? (
                      <MinusIcon className="size-6" />
                   ) : (
                      <PlusIcon className="size-6" />
                   )}
                </Button>
-               <div
-                  className="relative"
+
+               <Button
+                  variant="more"
                   onMouseEnter={openModal}
                   onMouseLeave={closeModal}
                >
-                  <Button
-                     variant="more"
-                     aria-label="Дополнительные действия"
-                     onFocus={openModal}
-                     onBlur={closeModal}
-                  >
-                     <DotsIcon className="size-8" />
-                  </Button>
-                  {isOpen && <ProductsDetailsPopover product={row} />}
-               </div>
+                  <DotsIcon className="size-8" />
+               </Button>
+               {isOpen && <ProductsDetailsPopover product={row} />}
             </div>
          </div>
       </div>

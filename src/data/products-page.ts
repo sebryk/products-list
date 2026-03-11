@@ -20,12 +20,7 @@ export type ProductsTableRow = {
    availability: string
 }
 
-export type ProductsSortField =
-   | 'title'
-   | 'brand'
-   | 'sku'
-   | 'rating'
-   | 'price'
+export type ProductsSortField = 'title' | 'brand' | 'sku' | 'rating' | 'price'
 
 export type ProductsSortOrder = 'asc' | 'desc'
 

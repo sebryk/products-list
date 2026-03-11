@@ -18,7 +18,7 @@ export const ProductsControlBar = ({
    isFetching,
    onRefresh,
 }: ProductsControlBarProps) => {
-   const { title, refreshLabel, addButton, addModal } = productsPageData.controls
+   const { title, addButton, addModal } = productsPageData.controls
    const { isOpen, openModal, closeModal } = useModal()
 
    const handleProductSuccess = () => {
@@ -33,12 +33,7 @@ export const ProductsControlBar = ({
                {title}
             </h2>
             <div className="flex items-center gap-2">
-               <Button
-                  variant="icon"
-                  aria-label={refreshLabel}
-                  disabled={isFetching}
-                  onClick={onRefresh}
-               >
+               <Button variant="icon" disabled={isFetching} onClick={onRefresh}>
                   <ArrowsClockwiseIcon className="size-5.5" />
                </Button>
                <Button variant="default-with-icon" onClick={openModal}>
@@ -47,12 +42,7 @@ export const ProductsControlBar = ({
                </Button>
             </div>
          </section>
-         <ModalWrapper
-            isOpen={isOpen}
-            title={addModal.title}
-            closeLabel={addModal.closeLabel}
-            onClose={closeModal}
-         >
+         <ModalWrapper isOpen={isOpen} onClose={closeModal}>
             <AddProductForm
                onCancel={closeModal}
                onSuccess={handleProductSuccess}
