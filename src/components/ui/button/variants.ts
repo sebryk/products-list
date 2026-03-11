@@ -15,8 +15,10 @@ export const variants = cva(
             link: "text-primary-600 h-auto p-0 text-base leading-6 sm:text-lg relative inline-block font-semibold after:absolute after:right-0 after:bottom-px after:left-0 after:h-px after:bg-current after:content-['']",
             'default-with-icon':
                'h-10.5 cursor-pointer rounded-md bg-primary-600 px-5 py-2.5 font-cairo text-sm font-semibold text-[#ebf3ea] hover:bg-primary-500',
-            icon:
-               'h-10.5 w-10.5 cursor-pointer rounded-lg border border-[#ececeb] bg-neutral-0 p-2.5 text-[#515161] hover:bg-neutral-100',
+            icon: 'size-10.5 cursor-pointer rounded-lg border border-[#ececeb] bg-neutral-0 p-2.5 text-[#515161] hover:bg-neutral-100',
+            'elips-icon':
+               'h-6.75 min-w-13 cursor-pointer rounded-[5.75rem] bg-primary-600 px-1 text-neutral-0 hover:bg-primary-500',
+            more: 'size-8 p-[3px] cursor-pointer rounded-full bg-transparent text-neutral-550 hover:bg-neutral-100',
          },
       },
       defaultVariants: {
