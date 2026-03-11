@@ -82,10 +82,7 @@ export const productsPageData = {
          ],
          submitButton: 'Добавить товар',
          cancelButton: 'Отмена',
-         toast: {
-            title: 'Товар добавлен успешно',
-            description: 'Новая позиция подготовлена к дальнейшей обработке.',
-         },
+         successMessage: 'Товар успешно добавлен',
          errors: {
             name: {
                required: 'Введите наименование товара.',

@@ -1,11 +1,13 @@
+import { toast } from 'react-hot-toast'
+
 import ArrowsClockwiseIcon from '@/assets/products-page/icons/arrows-clockwise.svg?react'
 import PlusCircleIcon from '@/assets/products-page/icons/plus-circle.svg?react'
 import { AddProductForm } from '@/components/add-product-form'
 import { Button } from '@/components/ui/button'
 import { ModalWrapper } from '@/components/ui/modal-wrapper'
+import { Toast } from '@/components/ui/toast'
 import { productsPageData } from '@/data/products-page'
 import { useModal } from '@/hooks/use-modal'
-import { useToast } from '@/hooks/use-toast'
 
 type ProductsControlBarProps = {
    isFetching: boolean
@@ -18,10 +20,9 @@ export const ProductsControlBar = ({
 }: ProductsControlBarProps) => {
    const { title, refreshLabel, addButton, addModal } = productsPageData.controls
    const { isOpen, openModal, closeModal } = useModal()
-   const { toast } = useToast()
 
    const handleProductSuccess = () => {
-      toast(addModal.toast)
+      toast.custom(() => <Toast title={addModal.successMessage} />)
       closeModal()
    }
 

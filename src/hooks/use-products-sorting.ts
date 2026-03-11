@@ -77,10 +77,9 @@ const getNextSorting = (
 
 export const useProductsSorting = () => {
    const [searchParams, setSearchParams] = useSearchParams()
-   const searchParamsKey = searchParams.toString()
    const searchParamsSorting = useMemo(
       () => parseSorting(searchParams),
-      [searchParamsKey],
+      [searchParams],
    )
    const storedSorting = useMemo(() => parseStoredSorting(), [])
    const sorting = useMemo(
