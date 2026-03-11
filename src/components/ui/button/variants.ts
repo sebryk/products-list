@@ -12,6 +12,8 @@ export const variants = cva(
          variant: {
             default:
                'bg-primary-600 rounded-xl text-neutral-0 shadow-[0_0.5rem_0.5rem_0_rgba(54,122,255,0.03)] cursor-pointer border border-primary-500 hover:bg-primary-500 h-13.75 px-4 py-4 text-lg leading-none',
+            accent:
+               'rounded-xl border border-neutral-200 px-6 cursor-pointer text-base leading-none font-semibold text-neutral-600 transition-colors hover:bg-neutral-100',
             link: "text-primary-600 h-auto p-0 text-base leading-6 sm:text-lg relative inline-block font-semibold after:absolute after:right-0 after:bottom-px after:left-0 after:h-px after:bg-current after:content-['']",
             'default-with-icon':
                'h-10.5 cursor-pointer rounded-md bg-primary-600 px-5 py-2.5 font-cairo text-sm font-semibold text-[#ebf3ea] hover:bg-primary-500',

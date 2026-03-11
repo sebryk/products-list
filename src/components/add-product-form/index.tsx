@@ -18,11 +18,7 @@ export const AddProductForm = ({
 }: AddProductFormProps) => {
    const { title, subtitle, inputs, submitButton, cancelButton, errors } =
       productsPageData.controls.addModal
-   const {
-      form,
-      onSubmit,
-      clearErrors,
-   } = useAddProductForm({
+   const { form, onSubmit, clearErrors } = useAddProductForm({
       errors,
       onSuccess,
    })
@@ -82,16 +78,12 @@ export const AddProductForm = ({
                   )
                })}
             </div>
-            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
-               <button
-                  type="button"
-                  onClick={onCancel}
-                  className="text-neutral-600 h-13.75 cursor-pointer rounded-xl border border-neutral-200 px-6 text-base leading-none font-semibold transition-colors hover:bg-neutral-100"
-               >
-                  {cancelButton}
-               </button>
+            <div className="flex gap-3 pt-2 sm:mt-8 sm:flex-row sm:justify-center">
                <Button type="submit" className="px-8">
                   {submitButton}
+               </Button>
+               <Button type="button" variant="accent" onClick={onCancel}>
+                  {cancelButton}
                </Button>
             </div>
          </form>
