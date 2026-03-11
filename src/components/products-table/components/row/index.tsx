@@ -12,7 +12,7 @@ type ProductsTableRowProps = {
 }
 
 export const Row = ({ row }: ProductsTableRowProps) => {
-   const { name, category, vendor, sku, rating, price } = row
+   const { thumbnail, name, category, vendor, sku, rating, price } = row
    const {
       table: { columnTemplate },
    } = productsPageData
@@ -23,12 +23,20 @@ export const Row = ({ row }: ProductsTableRowProps) => {
          <div className={`grid h-full ${columnTemplate} items-center`}>
             <div className="flex items-center gap-4.5">
                <TableCheckbox />
-               <div className="border-neutral-250 bg-neutral-450 flex size-12 shrink-0 rounded-lg border" />
+               {thumbnail ? (
+                  <img
+                     src={thumbnail}
+                     alt=""
+                     className="border-neutral-250 size-12 shrink-0 rounded-lg border object-cover"
+                  />
+               ) : (
+                  <div className="border-neutral-250 bg-neutral-450 flex size-12 shrink-0 rounded-lg border" />
+               )}
                <div className="flex w-52.5 min-w-0 flex-col gap-2.5">
-                  <span className="text-neutral-1000 font-cairo truncate whitespace-nowrap text-base leading-none font-bold">
+                  <span className="text-neutral-1000 font-cairo truncate text-base leading-none font-bold whitespace-nowrap">
                      {name}
                   </span>
-                  <span className="font-cairo text-neutral-550 truncate whitespace-nowrap text-sm leading-none font-normal">
+                  <span className="font-cairo text-neutral-550 truncate text-sm leading-[1.2] font-normal whitespace-nowrap">
                      {category}
                   </span>
                </div>

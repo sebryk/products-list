@@ -4,6 +4,8 @@ export type ProductsTableColumn = {
 }
 
 export type ProductsTableRow = {
+   id: number
+   thumbnail: string | null
    name: string
    category: string
    vendor: string
@@ -25,6 +27,8 @@ export const productsPageData = {
    },
    table: {
       columnTemplate: 'grid-cols-[23.92%_13.1%_17%_13.1%_17%_15.88%]',
+      loadingRowsCount: 30,
+      errorMessage: 'Не удалось загрузить товары.',
       columns: [
          { key: 'name', label: 'Наименование' },
          { key: 'vendor', label: 'Вендор' },
@@ -32,15 +36,5 @@ export const productsPageData = {
          { key: 'rating', label: 'Оценка' },
          { key: 'price', label: 'Цена, ₽' },
       ] satisfies ProductsTableColumn[],
-      rows: [
-         {
-            name: 'USB Флэшкарта 16GB',
-            category: 'Аксессуары',
-            vendor: 'Samsung',
-            sku: 'RCH45Q1A',
-            rating: '4.3/5',
-            price: '48 652,00',
-         },
-      ] satisfies ProductsTableRow[],
    },
 }
