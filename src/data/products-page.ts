@@ -1,6 +1,7 @@
 export type ProductsTableColumn = {
    key: 'name' | 'vendor' | 'sku' | 'rating' | 'price'
    label: string
+   sortBy: ProductsSortField
 }
 
 export type ProductsTableRow = {
@@ -12,6 +13,20 @@ export type ProductsTableRow = {
    sku: string
    rating: string
    price: string
+}
+
+export type ProductsSortField =
+   | 'title'
+   | 'brand'
+   | 'sku'
+   | 'rating'
+   | 'price'
+
+export type ProductsSortOrder = 'asc' | 'desc'
+
+export type ProductsSorting = {
+   sortBy: ProductsSortField
+   order: ProductsSortOrder
 }
 
 export const productsPageData = {
@@ -30,11 +45,11 @@ export const productsPageData = {
       loadingRowsCount: 30,
       errorMessage: 'Не удалось загрузить товары.',
       columns: [
-         { key: 'name', label: 'Наименование' },
-         { key: 'vendor', label: 'Вендор' },
-         { key: 'sku', label: 'Артикул' },
-         { key: 'rating', label: 'Оценка' },
-         { key: 'price', label: 'Цена, ₽' },
+         { key: 'name', label: 'Наименование', sortBy: 'title' },
+         { key: 'vendor', label: 'Вендор', sortBy: 'brand' },
+         { key: 'sku', label: 'Артикул', sortBy: 'sku' },
+         { key: 'rating', label: 'Оценка', sortBy: 'rating' },
+         { key: 'price', label: 'Цена, ₽', sortBy: 'price' },
       ] satisfies ProductsTableColumn[],
    },
 }

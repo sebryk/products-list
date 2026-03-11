@@ -1,3 +1,8 @@
+import type {
+   ProductsSortField,
+   ProductsSorting,
+} from '@/data/products-page'
+
 const API_BASE_URL = 'https://dummyjson.com'
 const PRODUCTS_LIMIT = 30
 
@@ -28,6 +33,13 @@ export type ProductListItem = {
 }
 
 export const productsQueryKey = ['products'] as const
+export const productsSortFields = [
+   'title',
+   'brand',
+   'sku',
+   'rating',
+   'price',
+] as const satisfies ProductsSortField[]
 
 const formatPrice = (price: number) =>
    new Intl.NumberFormat('ru-RU', {
@@ -61,10 +73,28 @@ const mapProductToListItem = (product: ProductsApiItem): ProductListItem => {
    }
 }
 
-export const getProducts = async (): Promise<ProductListItem[]> => {
-   const response = await fetch(
-      `${API_BASE_URL}/products?limit=${PRODUCTS_LIMIT}&select=id,title,category,brand,sku,rating,price,thumbnail`,
-   )
+type GetProductsOptions = {
+   signal?: AbortSignal
+   sorting: ProductsSorting | null
+}
+
+export const getProducts = async ({
+   signal,
+   sorting,
+}: GetProductsOptions): Promise<ProductListItem[]> => {
+   const params = new URLSearchParams({
+      limit: String(PRODUCTS_LIMIT),
+      select: 'id,title,category,brand,sku,rating,price,thumbnail',
+   })
+
+   if (sorting) {
+      params.set('sortBy', sorting.sortBy)
+      params.set('order', sorting.order)
+   }
+
+   const response = await fetch(`${API_BASE_URL}/products?${params.toString()}`, {
+      signal,
+   })
 
    if (!response.ok) {
       throw new Error('Не удалось загрузить товары.')

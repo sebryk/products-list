@@ -68,7 +68,7 @@ export const Progress = ({ isActive }: ProgressProps) => {
       >
          <div
             className={cn(
-               'bg-primary-500 absolute inset-y-0 left-0 rounded-full',
+               'bg-primary-600 absolute inset-y-0 left-0 rounded-full',
                progressStateClass,
             )}
          />

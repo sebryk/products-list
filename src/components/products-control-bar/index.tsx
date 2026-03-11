@@ -2,11 +2,17 @@ import ArrowsClockwiseIcon from '@/assets/products-page/icons/arrows-clockwise.s
 import PlusCircleIcon from '@/assets/products-page/icons/plus-circle.svg?react'
 import { Button } from '@/components/ui/button'
 import { productsPageData } from '@/data/products-page'
-import { useProductsQuery } from '@/hooks/use-products-query'
 
-export const ProductsControlBar = () => {
+type ProductsControlBarProps = {
+   isFetching: boolean
+   onRefresh: () => void
+}
+
+export const ProductsControlBar = ({
+   isFetching,
+   onRefresh,
+}: ProductsControlBarProps) => {
    const { title, refreshLabel, addButton } = productsPageData.controls
-   const { refetch, isFetching } = useProductsQuery()
 
    return (
       <section className="mt-7.5 flex items-center justify-between px-7.5 pt-7.5 pb-10">
@@ -18,7 +24,7 @@ export const ProductsControlBar = () => {
                variant="icon"
                aria-label={refreshLabel}
                disabled={isFetching}
-               onClick={() => refetch()}
+               onClick={onRefresh}
             >
                <ArrowsClockwiseIcon className="size-5.5" />
             </Button>

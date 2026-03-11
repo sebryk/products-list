@@ -2,19 +2,35 @@ import { Header } from '@/components/products-table/components/header'
 import { Progress } from '@/components/ui/progress'
 import { Row } from '@/components/products-table/components/row'
 import { RowSkeleton } from '@/components/products-table/components/row/components/skeleton'
-import { useProductsQuery } from '@/hooks/use-products-query'
 import { productsPageData } from '@/data/products-page'
+import type { ProductListItem } from '@/api/products'
+import type { ProductsSorting, ProductsTableColumn } from '@/data/products-page'
 
-export const ProductsTable = () => {
+type ProductsTableProps = {
+   data: ProductListItem[] | undefined
+   isLoading: boolean
+   isError: boolean
+   isFetching: boolean
+   sorting: ProductsSorting | null
+   onSortToggle: (column: ProductsTableColumn) => void
+}
+
+export const ProductsTable = ({
+   data,
+   isLoading,
+   isError,
+   isFetching,
+   sorting,
+   onSortToggle,
+}: ProductsTableProps) => {
    const {
       table: { loadingRowsCount, errorMessage },
    } = productsPageData
-   const { data, isLoading, isError, isFetching } = useProductsQuery()
 
    return (
       <section className="px-7.5">
          <div className="bg-neutral-0 rounded-2.5 px-4.5 py-6">
-            <Header />
+            <Header sorting={sorting} onSortToggle={onSortToggle} />
             <div className="relative mt-6">
                <div className="pointer-events-none absolute inset-x-0 top-0 z-10">
                   <Progress isActive={isFetching} />
