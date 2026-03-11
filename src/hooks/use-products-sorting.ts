@@ -63,13 +63,13 @@ export const useProductsSorting = () => {
    const sortBy = searchParams.get('sortBy')
    const order = searchParams.get('order')
 
-   const searchParamsSorting =
-      isSortField(sortBy) && isSortOrder(order) ? { sortBy, order } : null
+   const sorting = useMemo(() => {
+      if (isSortField(sortBy) && isSortOrder(order)) {
+         return { sortBy, order }
+      }
 
-   const sorting = useMemo(
-      () => searchParamsSorting ?? storedSorting,
-      [sortBy, order, storedSorting],
-   )
+      return storedSorting
+   }, [sortBy, order, storedSorting])
 
    const debouncedSorting = useDebouncedValue(sorting, SORT_DEBOUNCE_DELAY)
 

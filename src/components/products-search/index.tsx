@@ -2,7 +2,12 @@ import SearchIcon from '@/assets/products-page/icons/search.svg?react'
 import { Input } from '@/components/ui/input'
 import { productsPageData } from '@/data/products-page'
 
-export const ProductsSearch = () => {
+type ProductsSearchProps = {
+   value: string
+   onChange: (value: string) => void
+}
+
+export const ProductsSearch = ({ value, onChange }: ProductsSearchProps) => {
    const { title, placeholder, ariaLabel } = productsPageData.search
 
    return (
@@ -16,6 +21,8 @@ export const ProductsSearch = () => {
                startIcon={SearchIcon}
                placeholder={placeholder}
                aria-label={ariaLabel}
+               value={value}
+               onChange={(event) => onChange(event.target.value)}
                className="w-255.75"
             />
          </div>

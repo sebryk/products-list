@@ -9,13 +9,15 @@ const PRODUCTS_LIST_SELECT =
 export const useProductsQuery = (
    sorting: ProductsSorting | null,
    page: number,
+   search: string,
 ) => {
    return useQuery({
-      queryKey: [...productsQueryKey, sorting, page, PRODUCTS_LIST_SELECT],
+      queryKey: [...productsQueryKey, sorting, page, search, PRODUCTS_LIST_SELECT],
       queryFn: ({ signal }) =>
          getProducts({
             signal,
             page,
+            search,
             sorting,
             select: PRODUCTS_LIST_SELECT,
          }),

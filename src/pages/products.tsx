@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import { ProductsControlBar } from '@/components/products-control-bar'
@@ -7,14 +7,17 @@ import { ProductsTable } from '@/components/products-table'
 import { useProductsPagination } from '@/hooks/use-products-pagination'
 import { useProductsSelection } from '@/hooks/use-products-selection'
 import { useProductsQuery } from '@/hooks/use-products-query'
+import { useProductsSearch } from '@/hooks/use-products-search'
 import { useProductsSorting } from '@/hooks/use-products-sorting'
 
 export function ProductsPage() {
    const { sorting, debouncedSorting, handleSortToggle } = useProductsSorting()
    const { page, setPage } = useProductsPagination()
+   const { search, debouncedSearch, setSearch } = useProductsSearch()
    const { data, isLoading, isError, isFetching, refetch } = useProductsQuery(
       debouncedSorting,
       page,
+      debouncedSearch,
    )
    const { isSelected, isAllSelected, toggleOne, toggleAll } =
       useProductsSelection(data?.items)
@@ -30,7 +33,7 @@ export function ProductsPage() {
       }
 
       setPage(data.totalPages, true)
-   }, [data?.totalPages, page])
+   }, [data?.totalPages, page, setPage])
 
    return (
       <main className="min-h-screen bg-neutral-100 pt-5 text-neutral-900">
@@ -45,7 +48,7 @@ export function ProductsPage() {
                duration: 3000,
             }}
          />
-         <ProductsSearch />
+         <ProductsSearch value={search} onChange={setSearch} />
          <div className="bg-neutral-0 mt-7.5">
             <ProductsControlBar
                isFetching={isFetching}

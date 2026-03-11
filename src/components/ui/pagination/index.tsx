@@ -20,6 +20,8 @@ type PaginationLinkProps = {
 }
 
 const MAX_VISIBLE_PAGES = 5
+const normalizeTotalPages = (totalPages: number) =>
+   Number.isFinite(totalPages) && totalPages > 0 ? Math.floor(totalPages) : 0
 
 const getVisiblePages = (page: number, totalPages: number) => {
    if (totalPages <= MAX_VISIBLE_PAGES) {
@@ -124,7 +126,10 @@ export const Pagination = ({
    className,
    ...props
 }: PaginationProps) => {
-   const lastAvailablePage = hasNextPage ? totalPages : Math.min(totalPages, page)
+   const normalizedTotalPages = normalizeTotalPages(totalPages)
+   const lastAvailablePage = hasNextPage
+      ? normalizedTotalPages
+      : Math.min(normalizedTotalPages, page)
 
    if (lastAvailablePage <= 1) {
       return null

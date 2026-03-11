@@ -74,8 +74,10 @@ export const getProducts = async ({
    signal,
    sorting,
    page,
+   search,
    select,
 }: GetProductsOptions): Promise<ProductsListResponse> => {
+   const trimmedSearch = search.trim()
    const params = new URLSearchParams({
       limit: String(PRODUCTS_LIMIT),
       skip: String((page - 1) * PRODUCTS_LIMIT),
@@ -87,22 +89,34 @@ export const getProducts = async ({
       params.set('order', sorting.order)
    }
 
-   const response = await fetch(`${API_BASE_URL}/products?${params.toString()}`, {
-      signal,
-   })
+   if (trimmedSearch) {
+      params.set('q', trimmedSearch)
+   }
+
+   const endpoint = trimmedSearch ? '/products/search' : '/products'
+   const response = await fetch(
+      `${API_BASE_URL}${endpoint}?${params.toString()}`,
+      {
+         signal,
+      },
+   )
 
    if (!response.ok) {
       throw new Error('Не удалось загрузить товары.')
    }
 
    const data = (await response.json()) as ProductsApiResponse
+   const limit =
+      Number.isFinite(data.limit) && data.limit > 0 ? data.limit : PRODUCTS_LIMIT
+   const total = Number.isFinite(data.total) && data.total > 0 ? data.total : 0
+   const totalPages = total === 0 ? 0 : Math.ceil(total / limit)
 
    return {
       items: data.products.map(mapProductToListItem),
       page,
-      limit: data.limit,
-      total: data.total,
-      totalPages: Math.ceil(data.total / data.limit),
-      hasNextPage: data.skip + data.products.length < data.total,
+      limit,
+      total,
+      totalPages,
+      hasNextPage: data.skip + data.products.length < total,
    }
 }

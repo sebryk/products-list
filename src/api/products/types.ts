@@ -58,5 +58,6 @@ export type GetProductsOptions = {
    signal?: AbortSignal
    sorting: ProductsSorting | null
    page: number
+   search: string
    select: string
 }
