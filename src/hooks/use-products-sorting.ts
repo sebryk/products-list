@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { productsSortFields } from '@/api/products'
@@ -77,10 +77,16 @@ const getNextSorting = (
 
 export const useProductsSorting = () => {
    const [searchParams, setSearchParams] = useSearchParams()
-
-   const searchParamsSorting = parseSorting(searchParams)
-   const storedSorting = parseStoredSorting()
-   const sorting = searchParamsSorting ?? storedSorting
+   const searchParamsKey = searchParams.toString()
+   const searchParamsSorting = useMemo(
+      () => parseSorting(searchParams),
+      [searchParamsKey],
+   )
+   const storedSorting = useMemo(() => parseStoredSorting(), [])
+   const sorting = useMemo(
+      () => searchParamsSorting ?? storedSorting,
+      [searchParamsSorting, storedSorting],
+   )
 
    const debouncedSorting = useDebouncedValue(sorting, SORT_DEBOUNCE_DELAY)
 
