@@ -10,10 +10,15 @@
    --color-neutral-0: #ffffff;
    --color-neutral-100: #f9f9f9;
    --color-neutral-200: #ededed;
+   --color-neutral-250: #ececeb;
+   --color-neutral-450: #c4c4c4;
    --color-neutral-500: #9c9c9c;
    --color-neutral-550: #b2b3b9;
    --color-neutral-600: #6c6c6c;
    --color-neutral-900: #232323;
+   --color-neutral-920: #222222;
+   --color-neutral-950: #161919;
+   --color-neutral-1000: #000000;
 
    --color-primary-600: #242edb;
    --color-primary-500: #367aff;
