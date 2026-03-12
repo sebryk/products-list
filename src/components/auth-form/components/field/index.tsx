@@ -63,6 +63,8 @@ export const Field = forwardRef<HTMLInputElement, AuthFormFieldProps>(
          onRightIconClick?.(name)
       }
 
+      console.log(LeftIcon)
+
       return (
          <div className="flex w-full flex-col gap-1.5">
             <Label htmlFor={id} className="text-base leading-6.75 sm:text-lg">
@@ -71,7 +73,7 @@ export const Field = forwardRef<HTMLInputElement, AuthFormFieldProps>(
             <div className="relative">
                <LeftIcon
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-1/2 left-4 size-6 -translate-y-1/2"
+                  className="pointer-events-none absolute top-1/2 left-4 z-10 size-6 -translate-y-1/2"
                />
                <Input
                   ref={ref}

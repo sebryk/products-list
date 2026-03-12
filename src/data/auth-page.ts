@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import clearIcon from '@/assets/auth-page/icons/clear-icon.svg?react'
 import eyeIcon from '@/assets/auth-page/icons/eye-icon.svg?react'
 import eyeOffIcon from '@/assets/auth-page/icons/eye-off-icon.svg?react'
@@ -16,14 +18,16 @@ const authAssets = {
 
 type AuthFieldName = 'login' | 'password'
 
+type SvgIcon = FC<React.SVGProps<SVGSVGElement>>
+
 type AuthInput = {
    type: 'text' | 'password'
    name: AuthFieldName
    label: string
    placeholder: string
-   leftIcon: (typeof authAssets)[keyof typeof authAssets]
-   rightIcon?: (typeof authAssets)[keyof typeof authAssets]
-   activeRightIcon?: (typeof authAssets)[keyof typeof authAssets]
+   leftIcon: SvgIcon
+   rightIcon?: SvgIcon
+   activeRightIcon?: SvgIcon
 }
 
 const inputs: AuthInput[] = [
@@ -56,8 +60,7 @@ export const authPageData = {
          login: {
             required: 'Введите логин.',
             min: 'Логин должен содержать минимум 2 символа.',
-            pattern:
-               'Логин может содержать только латинские буквы и цифры.',
+            pattern: 'Логин может содержать только латинские буквы и цифры.',
          },
          password: {
             required: 'Введите пароль.',
@@ -84,8 +87,7 @@ export const authPageData = {
          login: {
             required: 'Введите логин.',
             min: 'Логин должен содержать минимум 2 символа.',
-            pattern:
-               'Логин может содержать только латинские буквы и цифры.',
+            pattern: 'Логин может содержать только латинские буквы и цифры.',
          },
          password: {
             required: 'Введите пароль.',
