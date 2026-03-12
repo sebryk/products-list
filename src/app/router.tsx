@@ -1,44 +1,43 @@
 import { Navigate, Route, Routes } from 'react-router'
 
-import { GuestRoute } from '@/app/routes/guest-route'
-import { ProtectedRoute } from '@/app/routes/protected-route'
+import { AuthRoute } from '@/app/routes/auth-route'
 import { LoginPage } from '@/pages/auth/login'
 import { RegisterPage } from '@/pages/auth/register'
 import { ProductsPage } from '@/pages/products'
 
-export function AppRouter() {
+export const AppRouter = () => {
    return (
       <Routes>
          <Route
             path="/"
             element={
-               <ProtectedRoute>
+               <AuthRoute requiredStatus="authenticated">
                   <Navigate to="/products" replace={true} />
-               </ProtectedRoute>
+               </AuthRoute>
             }
          />
          <Route
             path="/products"
             element={
-               <ProtectedRoute>
+               <AuthRoute requiredStatus="authenticated">
                   <ProductsPage />
-               </ProtectedRoute>
+               </AuthRoute>
             }
          />
          <Route
             path="/auth/login"
             element={
-               <GuestRoute>
+               <AuthRoute requiredStatus="guest">
                   <LoginPage />
-               </GuestRoute>
+               </AuthRoute>
             }
          />
          <Route
             path="/auth/register"
             element={
-               <GuestRoute>
+               <AuthRoute requiredStatus="guest">
                   <RegisterPage />
-               </GuestRoute>
+               </AuthRoute>
             }
          />
       </Routes>
