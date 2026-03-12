@@ -2,7 +2,6 @@ import type { ComponentProps } from 'react'
 
 import ChevronIcon from '@/assets/products-page/icons/chevron.svg?react'
 import { Button } from '@/components/ui/button'
-import { productsPageData } from '@/data/products-page'
 import { cn } from '@/lib/utils'
 
 type PaginationProps = ComponentProps<'nav'> & {
@@ -77,15 +76,10 @@ export const PaginationPrevious = ({
    disabled: boolean
    onClick: () => void
 }) => {
-   const {
-      table: { pagination },
-   } = productsPageData
-
    return (
       <Button
-         variant="pagination"
          disabled={disabled}
-         aria-label={pagination.previousLabel}
+         variant="pagination"
          className="flex-center mr-2 flex size-5 border-transparent shadow-none hover:border-transparent"
          onClick={onClick}
       >
@@ -101,15 +95,10 @@ export const PaginationNext = ({
    disabled: boolean
    onClick: () => void
 }) => {
-   const {
-      table: { pagination },
-   } = productsPageData
-
    return (
       <Button
          variant="pagination"
          disabled={disabled}
-         aria-label={pagination.nextLabel}
          className="flex-center ml-2 flex size-5 border-transparent shadow-none hover:border-transparent"
          onClick={onClick}
       >

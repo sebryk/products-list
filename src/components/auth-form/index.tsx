@@ -135,7 +135,6 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                      {submitError ? (
                         <div
                            role="alert"
-                           aria-live="polite"
                            className="border-danger-500/20 bg-danger-500/8 rounded-2xl border px-4 py-3"
                         >
                            <p className="text-danger-500 text-sm leading-5 font-medium">

@@ -22,9 +22,7 @@ const isSortField = (
    productsSortFields.includes(value as (typeof productsSortFields)[number])
 
 const parseStoredSorting = (): ProductsSorting | null => {
-   if (typeof window === 'undefined') return null
-
-   const raw = window.localStorage.getItem(PRODUCTS_SORTING_STORAGE_KEY)
+   const raw = localStorage.getItem(PRODUCTS_SORTING_STORAGE_KEY)
    if (!raw) return null
 
    try {
@@ -58,7 +56,9 @@ const getNextSorting = (
 
 export const useProductsSorting = () => {
    const [searchParams, setSearchParams] = useSearchParams()
-   const [storedSorting] = useState(() => parseStoredSorting())
+   const [storedSorting, setStoredSorting] = useState(() =>
+      parseStoredSorting(),
+   )
 
    const sortBy = searchParams.get('sortBy')
    const order = searchParams.get('order')
@@ -88,13 +88,21 @@ export const useProductsSorting = () => {
    }, [sortBy, order, setSearchParams, storedSorting])
 
    useEffect(() => {
-      if (!sorting) return
+      if (!sorting) {
+         localStorage.removeItem(PRODUCTS_SORTING_STORAGE_KEY)
+         return
+      }
 
-      window.localStorage.setItem(
+      localStorage.setItem(
          PRODUCTS_SORTING_STORAGE_KEY,
          JSON.stringify(sorting),
       )
    }, [sorting])
+
+   const resetSorting = () => {
+      setStoredSorting(null)
+      localStorage.removeItem(PRODUCTS_SORTING_STORAGE_KEY)
+   }
 
    const handleSortToggle = (column: ProductsTableColumn) => {
       const { sortBy, order } = getNextSorting(sorting, column)
@@ -107,5 +115,5 @@ export const useProductsSorting = () => {
       })
    }
 
-   return { sorting, debouncedSorting, handleSortToggle }
+   return { sorting, debouncedSorting, handleSortToggle, resetSorting }
 }

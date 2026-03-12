@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { useSearchParams } from 'react-router'
 
 import { ProductsControlBar } from '@/components/products-control-bar'
 import { ProductsSearch } from '@/components/products-search'
@@ -11,7 +12,9 @@ import { useProductsSearch } from '@/hooks/use-products-search'
 import { useProductsSorting } from '@/hooks/use-products-sorting'
 
 export function ProductsPage() {
-   const { sorting, debouncedSorting, handleSortToggle } = useProductsSorting()
+   const [, setSearchParams] = useSearchParams()
+   const { sorting, debouncedSorting, handleSortToggle, resetSorting } =
+      useProductsSorting()
    const { page, setPage } = useProductsPagination()
    const { search, debouncedSearch, setSearch } = useProductsSearch()
    const { data, isLoading, isError, isFetching, refetch } = useProductsQuery(
@@ -19,12 +22,26 @@ export function ProductsPage() {
       page,
       debouncedSearch,
    )
-   const { isSelected, isAllSelected, toggleOne, toggleAll } =
+   const { isSelected, isAllSelected, toggleOne, toggleAll, clearSelection } =
       useProductsSelection(data?.items)
 
    const handlePageChange = (nextPage: number) => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       setPage(nextPage)
+   }
+
+   const handleRefresh = () => {
+      const isInitialState = page === 1 && !search.trim() && !sorting
+
+      clearSelection()
+      resetSorting()
+
+      if (isInitialState) {
+         void refetch()
+         return
+      }
+
+      setSearchParams(new URLSearchParams(), { replace: true })
    }
 
    useEffect(() => {
@@ -52,9 +69,7 @@ export function ProductsPage() {
          <div className="bg-neutral-0 mt-7.5">
             <ProductsControlBar
                isFetching={isFetching}
-               onRefresh={() => {
-                  void refetch()
-               }}
+               onRefresh={handleRefresh}
             />
             <ProductsTable
                data={data?.items}
