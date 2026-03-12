@@ -35,3 +35,8 @@ yarn dev
 ```bash
 yarn build
 ```
+
+## Creds для проверки логина
+
+- username: 'emilys',
+- password: 'emilyspass'
