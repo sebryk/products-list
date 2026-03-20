@@ -66,7 +66,7 @@ export function ProductsPage() {
             }}
          />
          <ProductsSearch value={search} onChange={setSearch} />
-         <div className="bg-neutral-0 mt-7.5">
+         <div className="mt-7.5 bg-neutral-0">
             <ProductsControlBar
                isFetching={isFetching}
                onRefresh={handleRefresh}

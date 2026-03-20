@@ -24,7 +24,11 @@ export const Header = ({
    } = productsPageData
 
    return (
-      <div className={`grid items-center ${columnTemplate} px-4.5`}>
+      <div className={`
+        grid items-center
+        ${columnTemplate}
+        px-4.5
+      `}>
          {columns.map((column, index) => {
             const isFirstColumn = index === 0
             const isActive = sorting?.sortBy === column.sortBy
@@ -33,7 +37,10 @@ export const Header = ({
             return (
                <div
                   key={column.key}
-                  className={`flex items-center ${isFirstColumn ? 'gap-5' : 'justify-center'}`}
+                  className={`
+                    flex items-center
+                    ${isFirstColumn ? 'gap-5' : `justify-center`}
+                  `}
                >
                   {isFirstColumn && (
                      <TableCheckbox
@@ -45,13 +52,20 @@ export const Header = ({
                   <button
                      type="button"
                      onClick={() => onSortToggle(column)}
-                     className={`inline-flex cursor-pointer items-center gap-1.5 transition-colors ${isActive ? 'text-primary-600' : 'text-neutral-550 hover:text-neutral-900'}`}
+                     className={`
+                       inline-flex cursor-pointer items-center gap-1.5 transition-colors
+                       ${isActive ? `text-primary-600` : `text-neutral-550 hover:text-neutral-900`}
+                     `}
                   >
                      <span className="font-cairo text-base leading-none font-bold">
                         {column.label}
                      </span>
                      <SortArrowIcon
-                        className={`size-4 shrink-0 transition-transform ${isActive ? 'opacity-100' : 'opacity-0'} ${isDescending ? 'rotate-180' : ''}`}
+                        className={`
+                          size-4 shrink-0 transition-transform
+                          ${isActive ? `opacity-100` : `opacity-0`}
+                          ${isDescending ? `rotate-180` : ''}
+                        `}
                      />
                   </button>
                </div>

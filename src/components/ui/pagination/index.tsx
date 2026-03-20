@@ -39,16 +39,13 @@ const getVisiblePages = (page: number, totalPages: number) => {
    )
 }
 
-export const PaginationContent = ({
-   className,
-   ...props
-}: ComponentProps<'ul'>) => (
+const PaginationContent = ({ className, ...props }: ComponentProps<'ul'>) => (
    <ul className={cn('flex items-center gap-2', className)} {...props} />
 )
 
-export const PaginationItem = (props: ComponentProps<'li'>) => <li {...props} />
+const PaginationItem = (props: ComponentProps<'li'>) => <li {...props} />
 
-export const PaginationLink = ({
+const PaginationLink = ({
    isActive = false,
    isDisabled = false,
    page,
@@ -60,7 +57,10 @@ export const PaginationLink = ({
          disabled={isDisabled}
          className={cn(
             isActive &&
-               'border-primary-600 bg-primary-600 text-neutral-0 hover:border-primary-600 hover:bg-primary-600 hover:text-neutral-0',
+               `
+                 border-primary-600 bg-primary-600 text-neutral-0 hover:border-primary-600 hover:bg-primary-600
+                 hover:text-neutral-0
+               `,
          )}
          onClick={() => onPageChange(page)}
       >
@@ -69,7 +69,7 @@ export const PaginationLink = ({
    )
 }
 
-export const PaginationPrevious = ({
+const PaginationPrevious = ({
    disabled,
    onClick,
 }: {
@@ -80,7 +80,7 @@ export const PaginationPrevious = ({
       <Button
          disabled={disabled}
          variant="pagination"
-         className="flex-center mr-2 flex size-5 border-transparent shadow-none hover:border-transparent"
+         className="mr-2 flex size-5 border-transparent shadow-none hover:border-transparent"
          onClick={onClick}
       >
          <ChevronIcon className="size-5 rotate-180" />
@@ -88,7 +88,7 @@ export const PaginationPrevious = ({
    )
 }
 
-export const PaginationNext = ({
+const PaginationNext = ({
    disabled,
    onClick,
 }: {
@@ -99,7 +99,7 @@ export const PaginationNext = ({
       <Button
          variant="pagination"
          disabled={disabled}
-         className="flex-center ml-2 flex size-5 border-transparent shadow-none hover:border-transparent"
+         className="ml-2 flex size-5 border-transparent shadow-none hover:border-transparent"
          onClick={onClick}
       >
          <ChevronIcon className="size-5" />

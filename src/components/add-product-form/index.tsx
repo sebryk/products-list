@@ -53,7 +53,7 @@ export const AddProductForm = ({
                      <div key={name} className="flex flex-col gap-1.5">
                         <Label
                            htmlFor={name}
-                           className="text-base leading-6.75 sm:text-lg"
+                           className="text-base/6.75 sm:text-lg"
                         >
                            {label}
                         </Label>
@@ -70,7 +70,7 @@ export const AddProductForm = ({
                            className="h-13.75 px-5 text-base sm:text-lg"
                         />
                         {fieldError ? (
-                           <p className="text-danger-500 text-sm leading-5 font-medium">
+                           <p className="text-sm/5 font-medium text-danger-500">
                               {fieldError}
                            </p>
                         ) : null}

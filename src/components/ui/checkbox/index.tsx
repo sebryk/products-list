@@ -16,7 +16,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
          <label
             htmlFor={checkboxId}
             className={cn(
-               'z-10 inline-flex cursor-pointer items-center gap-2.5 align-middle select-none',
+               `z-10 inline-flex cursor-pointer items-center gap-2.5 align-middle select-none`,
                'has-disabled:cursor-not-allowed has-disabled:opacity-60',
                className,
             )}
@@ -38,12 +38,18 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 
                <span
                   aria-hidden="true"
-                  className="peer-checked:bg-primary-600 pointer-events-none absolute inset-1 rounded-[3px] bg-transparent transition-colors"
+                  className="
+                    pointer-events-none absolute inset-1 rounded-[3px] bg-transparent transition-colors
+                    peer-checked:bg-primary-600
+                  "
                />
 
                <span
                   aria-hidden="true"
-                  className="peer-focus-visible:ring-primary-500 pointer-events-none absolute inset-0 rounded-[3px] ring-offset-1 transition peer-focus-visible:ring-2"
+                  className="
+                    pointer-events-none absolute inset-0 rounded-[3px] ring-offset-1 transition
+                    peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500
+                  "
                />
             </span>
 

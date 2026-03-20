@@ -11,11 +11,17 @@ export const ProductsSearch = ({ value, onChange }: ProductsSearchProps) => {
    const { title, placeholder, ariaLabel } = productsPageData.search
 
    return (
-      <section className="bg-neutral-0 rounded-2.5 grid h-26.25 grid-cols-[1fr_auto_1fr] items-center px-7.5">
-         <h1 className="font-cairo text-2xl leading-none font-bold text-neutral-900">
+      <section
+         className="mt-6 grid h-26.25 grid-cols-[1fr_auto_1fr] items-center bg-neutral-0 px-[7.5px]"
+      >
+         <h1
+            className="font-cairo text-2xl leading-none font-bold text-neutral-900"
+         >
             {title}
          </h1>
-         <div className="col-start-2 flex items-center justify-center">
+         <div
+            className="col-start-2 flex items-center justify-center"
+         >
             <Input
                variant="search"
                startIcon={SearchIcon}

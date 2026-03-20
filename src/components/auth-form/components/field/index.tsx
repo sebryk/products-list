@@ -67,7 +67,7 @@ export const Field = forwardRef<HTMLInputElement, AuthFormFieldProps>(
 
       return (
          <div className="flex w-full flex-col gap-1.5">
-            <Label htmlFor={id} className="text-base leading-6.75 sm:text-lg">
+            <Label htmlFor={id} className="text-base/6.75 sm:text-lg">
                {label}
             </Label>
             <div className="relative">
@@ -93,7 +93,10 @@ export const Field = forwardRef<HTMLInputElement, AuthFormFieldProps>(
                      type="button"
                      onClick={handleRightIconClick}
                      className={cn(
-                        'absolute top-1/2 -translate-y-1/2 cursor-pointer text-neutral-500 transition-colors hover:text-neutral-900',
+                        `
+                          absolute top-1/2 -translate-y-1/2 cursor-pointer text-neutral-500 transition-colors
+                          hover:text-neutral-900
+                        `,
                         type === 'text'
                            ? 'right-6 h-4.5 w-4'
                            : 'right-4 size-6',
@@ -109,7 +112,7 @@ export const Field = forwardRef<HTMLInputElement, AuthFormFieldProps>(
             {error ? (
                <p
                   id={errorId}
-                  className="text-danger-500 text-sm leading-5 font-medium"
+                  className="text-sm/5 font-medium text-danger-500"
                >
                   {error}
                </p>

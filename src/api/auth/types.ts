@@ -8,7 +8,7 @@ export type ApiErrorResponse = {
    message?: string
 }
 
-export type RequestErrorOptions = {
+type RequestErrorOptions = {
    status?: number
    code: 'network' | 'invalid_credentials' | 'register_failed' | 'unknown'
    message: string

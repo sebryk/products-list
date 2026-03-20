@@ -29,7 +29,7 @@ export const ProductsControlBar = ({
    return (
       <>
          <section className="mt-7.5 flex items-center justify-between px-7.5 pt-7.5 pb-10">
-            <h2 className="font-cairo text-xl leading-5 font-bold text-neutral-900">
+            <h2 className="font-cairo text-xl/5 font-bold text-neutral-900">
                {title}
             </h2>
             <div className="flex items-center gap-2">

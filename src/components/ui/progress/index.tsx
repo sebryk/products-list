@@ -1,54 +1,12 @@
-import { useEffect, useState } from 'react'
-
 import { cn } from '@/lib/utils'
+import { useProgressState } from './use-progress-state'
 
 type ProgressProps = {
    isActive: boolean
 }
 
 export const Progress = ({ isActive }: ProgressProps) => {
-   const [isVisible, setIsVisible] = useState(isActive)
-   const [isCompleting, setIsCompleting] = useState(false)
-   const [isStarted, setIsStarted] = useState(false)
-
-   useEffect(() => {
-      if (isActive) {
-         const showTimeoutId = setTimeout(() => {
-            setIsVisible(true)
-            setIsCompleting(false)
-            setIsStarted(false)
-         }, 0)
-
-         const startTimeoutId = setTimeout(() => {
-            setIsStarted(true)
-         }, 0)
-
-         return () => {
-            clearTimeout(showTimeoutId)
-            clearTimeout(startTimeoutId)
-         }
-      }
-
-      if (!isVisible) {
-         return
-      }
-
-      const completeTimeoutId = setTimeout(() => {
-         setIsCompleting(true)
-         setIsStarted(true)
-      }, 0)
-
-      const hideTimeoutId = setTimeout(() => {
-         setIsVisible(false)
-         setIsCompleting(false)
-         setIsStarted(false)
-      }, 50)
-
-      return () => {
-         clearTimeout(completeTimeoutId)
-         clearTimeout(hideTimeoutId)
-      }
-   }, [isActive, isVisible])
+   const { isVisible, isCompleting, isStarted } = useProgressState(isActive)
 
    if (!isVisible) {
       return null
@@ -68,7 +26,7 @@ export const Progress = ({ isActive }: ProgressProps) => {
       >
          <div
             className={cn(
-               'bg-primary-600 absolute inset-y-0 left-0 rounded-full',
+               'absolute inset-y-0 left-0 rounded-full bg-primary-600',
                progressStateClass,
             )}
          />

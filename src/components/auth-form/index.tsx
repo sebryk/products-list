@@ -48,22 +48,34 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
    const { ref: checkboxRef, ...checkboxInputProps } = checkboxField
 
    return (
-      <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 text-neutral-900 sm:px-6">
+      <main
+         className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 text-neutral-900 sm:px-6"
+      >
          <section
             className={cn(
-               `bg-neutral-0 w-full max-w-131.75 rounded-[40px] p-1.5 shadow-[0px_24px_32px_0px_rgba(0,0,0,0.04)]`,
+               `w-full max-w-131.75 rounded-[40px] bg-neutral-0 p-1.5 shadow-[0px_24px_32px_0px_rgba(0,0,0,0.04)]`,
             )}
          >
-            <div className="bg-modal-overlay-fade border-gradient rounded-[34px] px-5 py-8 sm:p-12">
+            <div
+               className="rounded-[34px] bg-modal-overlay-fade px-5 py-8 sm:p-12"
+            >
                <div className="flex flex-col items-center gap-8">
-                  <div className="h-13 w-13 rounded-full shadow-[0px_12px_8px_0px_rgba(0,0,0,0.03)]">
+                  <div
+                     className="h-13 w-13 rounded-full shadow-[0px_12px_8px_0px_rgba(0,0,0,0.03)]"
+                  >
                      <Logo aria-hidden="true" />
                   </div>
                   <div className="flex w-full flex-col items-center gap-3 text-center">
-                     <h1 className="text-[32px] leading-[1.1] font-semibold tracking-[-0.015em] text-neutral-900 sm:text-[40px]">
+                     <h1
+                        className="
+                          text-[32px] leading-[1.1] font-semibold tracking-[-0.015em] text-neutral-900 sm:text-[40px]
+                        "
+                     >
                         {title}
                      </h1>
-                     <p className="text-base font-medium text-neutral-500 sm:text-lg">
+                     <p
+                        className="text-base font-medium text-neutral-500 sm:text-lg"
+                     >
                         {subtitle}
                      </p>
                   </div>
@@ -127,7 +139,7 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                            }}
                         />
                         {formErrors[checkboxFieldName]?.message ? (
-                           <p className="text-danger-500 text-sm leading-5 font-medium">
+                           <p className="text-sm/5 font-medium text-danger-500">
                               {formErrors[checkboxFieldName]?.message}
                            </p>
                         ) : null}
@@ -135,9 +147,9 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                      {submitError ? (
                         <div
                            role="alert"
-                           className="border-danger-500/20 bg-danger-500/8 rounded-2xl border px-4 py-3"
+                           className="rounded-2xl border border-danger-500/20 bg-danger-500/8 px-4 py-3"
                         >
-                           <p className="text-danger-500 text-sm leading-5 font-medium">
+                           <p className="px-10 text-sm/5 font-medium text-danger-500">
                               {submitError}
                            </p>
                         </div>
@@ -153,7 +165,9 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                         <Divider text={divider} />
                      </div>
                   </form>
-                  <p className="z-10 text-center text-base leading-6 text-neutral-600 sm:text-lg">
+                  <p
+                     className="z-10 text-center text-base/6 text-neutral-600 sm:text-lg"
+                  >
                      {`${link.prefix} `}
                      <Button href={link.to} variant="link">
                         {link.text}

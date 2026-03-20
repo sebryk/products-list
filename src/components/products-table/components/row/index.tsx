@@ -32,10 +32,14 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
          {isSelected && (
             <span
                aria-hidden="true"
-               className="bg-primary-600 absolute top-0 left-0 h-17.75 w-0.75"
+               className="absolute top-0 left-0 h-17.75 w-0.75 bg-primary-600"
             />
          )}
-         <div className={`grid h-full ${columnTemplate} items-center`}>
+         <div className={`
+           grid h-full
+           ${columnTemplate}
+           items-center
+         `}>
             <div className="flex items-center gap-4.5">
                <TableCheckbox
                   checked={isSelected}
@@ -46,32 +50,36 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
                   <img
                      src={thumbnail}
                      alt=""
-                     className="border-neutral-250 size-12 shrink-0 rounded-lg border object-cover"
+                     className="size-12 shrink-0 rounded-lg border border-neutral-250 object-cover"
                   />
                ) : (
-                  <div className="border-neutral-250 bg-neutral-450 flex size-12 shrink-0 rounded-lg border" />
+                  <div className="flex size-12 shrink-0 rounded-lg border border-neutral-250 bg-neutral-450" />
                )}
                <div className="flex w-52.5 min-w-0 flex-col gap-2.5">
-                  <span className="text-neutral-1000 font-cairo truncate text-base leading-none font-bold whitespace-nowrap">
+                  <span className="
+                    truncate font-cairo text-base leading-none font-bold whitespace-nowrap text-neutral-1000
+                  ">
                      {name}
                   </span>
-                  <span className="font-cairo text-neutral-550 truncate text-sm leading-[1.2] font-normal whitespace-nowrap">
+                  <span className="
+                    truncate font-cairo text-sm leading-[1.2] font-normal whitespace-nowrap text-neutral-550
+                  ">
                      {category}
                   </span>
                </div>
             </div>
             <div className="flex items-center justify-center">
-               <span className="text-neutral-1000 font-open-sans text-base leading-none font-bold">
+               <span className="font-open-sans text-base leading-none font-bold text-neutral-1000">
                   {vendor}
                </span>
             </div>
             <div className="flex items-center justify-center">
-               <span className="text-neutral-1000 font-open-sans text-base leading-none font-normal">
+               <span className="font-open-sans text-base leading-none font-normal text-neutral-1000">
                   {sku}
                </span>
             </div>
             <div className="flex items-center justify-center">
-               <span className="font-open-sans text-neutral-1000 text-base leading-none font-normal">
+               <span className="font-open-sans text-base leading-none font-normal text-neutral-1000">
                   <span className={isLowRating ? 'text-danger-500' : ''}>
                      {ratingMain}
                   </span>
@@ -79,7 +87,7 @@ export const Row = ({ row, isSelected, onToggle }: ProductsTableRowProps) => {
                </span>
             </div>
             <div className="flex items-center justify-center">
-               <span className="text-neutral-920 font-roboto-mono text-base leading-[1.1] font-normal">
+               <span className="font-roboto-mono text-base leading-[1.1] font-normal text-neutral-920">
                   {priceMain}
                   <span className="text-neutral-500">,{priceFraction}</span>
                </span>

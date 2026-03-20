@@ -55,7 +55,7 @@ export const ProductsTable = ({
 
    return (
       <section className="px-7.5">
-         <div className="bg-neutral-0 rounded-2.5 py-6">
+         <div className="rounded-sm bg-neutral-0 py-6">
             <Header
                sorting={sorting}
                onSortToggle={onSortToggle}
@@ -81,7 +81,7 @@ export const ProductsTable = ({
                   </div>
                ) : isError ? (
                   <div className="border-y border-neutral-200 py-8 text-center">
-                     <span className="text-danger-500 font-cairo text-base leading-none font-bold">
+                     <span className="font-cairo text-base leading-none font-bold text-danger-500">
                         {errorMessage}
                      </span>
                   </div>

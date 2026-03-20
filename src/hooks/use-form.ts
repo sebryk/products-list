@@ -51,7 +51,7 @@ const createAuthSchema = (errors: AuthFormErrors) =>
    )
 
 type AuthFormSchema = ReturnType<typeof createAuthSchema>
-export type AuthFormValues = InferFormValues<AuthFormSchema>
+type AuthFormValues = InferFormValues<AuthFormSchema>
 type AuthFormVariant = 'login' | 'register'
 
 export const useForm = (variant: AuthFormVariant, errors: AuthFormErrors) => {
